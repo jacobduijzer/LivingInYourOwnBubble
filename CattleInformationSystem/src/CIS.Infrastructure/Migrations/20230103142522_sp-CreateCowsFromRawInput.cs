@@ -17,12 +17,12 @@ begin
 	for raw_cow_record in select ""LifeNumber"", ""Gender"" from ""RawCowData""		
             loop
                 raise notice '% - %', raw_cow_record.""LifeNumber"", raw_cow_record.""Gender"";		
-            /* 
-            TODO: update when exists
-            https://www.postgresql.org/docs/current/sql-insert.html#SQL-ON-CONFLICT 
-            */
-            INSERT INTO ""Cows"" (""LifeNumber"") VALUES (raw_cow_record.""LifeNumber"") ON CONFLICT DO NOTHING;
-        DELETE FROM ""RawCowData"" WHERE ""LifeNumber""=raw_cow_record.""LifeNumber"";
+
+                INSERT INTO ""Cows"" (""LifeNumber"", ""Gender"") VALUES (raw_cow_record.""LifeNumber"", raw_cow_record.""Gender"") 
+                ON CONFLICT (""LifeNumber"") DO 
+                    UPDATE SET ""Gender"" = raw_cow_record.""Gender"";
+
+                DELETE FROM ""RawCowData"" WHERE ""LifeNumber""=raw_cow_record.""LifeNumber"";
             end loop;
 
             end;$$

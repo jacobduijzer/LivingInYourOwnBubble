@@ -1,0 +1,21 @@
+﻿@page
+@model CowsModel 
+@{
+    ViewData["Title"] = "Cows";
+}
+
+<div class="text-center">
+    <table>
+        <thead>
+        <th>Life Number</th>
+        <th>Gender</th>
+        </thead>
+        @if (Model.Cows.Any())
+        {
+            foreach (var cow in Model.Cows)
+            {
+                <tr><td>@cow.LifeNumber</td><td>@cow.Gender</td></tr>
+            }
+        }
+    </table>
+</div>
