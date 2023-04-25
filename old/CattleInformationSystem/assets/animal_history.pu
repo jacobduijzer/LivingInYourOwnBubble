@@ -1,0 +1,45 @@
+@startuml
+
+start
+
+if (Does animal exist?) then (yes)
+	:update flow;
+else (no)
+	:insert flow;
+	:new animal;
+	:Get location;
+	repeat :event;
+	if (Known location?) then (yes)
+	    :use production target;
+	else (no)
+	    :use default production target 'Milk';
+	endif
+
+	if(Born event available?) then (yes)
+		:Get start category;
+	else (no)
+		:Continue;
+	endif
+	
+switch (Reason)
+	    case ( Born )
+		:Set birth date of animal;
+		:First event;
+	    case ( Bought ) 
+		:Text 2;
+	    case ( Sold )
+		:Text 3;
+	    case ( Calved )
+		:Set date calved;
+		:Create event;
+	    case ( Died )
+		:Set Date of Death;
+		:Create event;
+	endswitch
+	:do things;
+	repeat while (More events exist?) is (yes) not (no)
+endif
+
+stop
+
+@enduml

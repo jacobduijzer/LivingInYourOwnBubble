@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  cis.web:
+    image: cis-web
+    container_name: cis.web
+    ports:
+      - 80:5000
+    build:
+      context: ./CattleInformationSystem
+      dockerfile: Dockerfile.web
+    environment:
+      ASPNETCORE_URLS: http://+:5000
+      DatabaseSettings:Username: &db-user postgres
+      DatabaseSettings:Password: &db-password postgres
+      DatabaseSettings:Host: cis.db
+      DatabaseSettings:Database: &db-name CattleInformationDatabase
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+    depends_on:
+      - cis.db
+    restart: always
+
+  cis.db:
+    image: library/postgres:11
+    container_name: cis.db
+    environment:
+      TZ: Europe/Amsterdam
+      POSTGRES_USER: *db-user
+      POSTGRES_PASSWORD: *db-password
+      POSTGRES_DB: *db-name
+    ports:
+      - 5432:5432
+    volumes:
+      - cattleinformationsystem_db_data:/var/lib/postgresql/data
+    restart: always
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@test.nl
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+    
+volumes:
+  cattleinformationsystem_db_data:

@@ -1,0 +1,43 @@
+@startuml
+
+start
+
+:Start met levensnummer en landcode;
+
+:DierDetails bij levensnummer zoeken;
+
+if (dier niet verwijderd) then (yes)
+	:Dier Verblijfplaatsen ophalen;
+	:Sorteren op aanvoerdatum;
+	:Daarna sorteren of afvoerdatum;
+	if(dier heeft verblijfplaatsen) then (yes)
+		:haal originele verblijfplaatsen op;	
+		:haal master data op\n- diercategorieen\n- mutatieredenen\n- aan-afvoerredenen\n- productiedoelen;
+	    :Bepaal diergebeurtenissen;
+	    fork 
+		:Stap 1: bepaal aan- en afvoer;
+	    fork again
+		:Stap 2: bepaal eerste afkalving;
+	    fork again
+		:Stap 3: bepaal leeftijdsovergang;
+	    fork again 
+		:Final: CategorieVerkoopSerfteEnOntbrekende;
+	    end fork {bepaal diergebeurtenissen}
+	    :Bepaal dier productie doel;
+	    :TODO: herberekenen?;
+	    :TODO: vergelijken;
+	    fork
+	    :Verwerk verwijderlijst;
+	    fork again
+	    :Verwerk updatelijst;
+	    fork again
+	    :Verwerk toevoeglijst;
+	    end fork {Verwerk verschillen}
+	else (stop, dier heeft geen verblijfplaatsen)
+	endif
+else (stop, dier verwijderd)
+endif
+
+stop
+
+@enduml

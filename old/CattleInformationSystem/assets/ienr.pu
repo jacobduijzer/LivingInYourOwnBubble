@@ -1,0 +1,45 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Identification & Registration - Context
+
+Person(farmer1, "Farmer", "A farmer, updating details of his livestock in the RVO application.")
+Person(accountant1, "Accountant", "An accountant, updating details of a farmers' livestock in a Farm Management Application.")
+
+Enterprise_Boundary(rvo_government, "RVO - Dutch Government") {
+    System(rvo_app, "I&R Application", "Governmental web application to manage locations (UBN) and animal information.")
+}
+
+Rel(farmer1, rvo_app, "Uses", "Web / HTTPS")
+
+Enterprise_Boundary(bms, "BMS - Bedrijfs Management Systeem") {
+	System(bms_app, "BMS Application", "Farm Management Application")
+}
+
+Rel(accountant1, bms_app, "Uses", "Web / HTTPS")
+Rel(bms_app, rvo_app, "Uses", "API / HTTPS")
+
+Enterprise_Boundary(vaa, "I & R / Accountants") {
+    System(ienr, "I & R", "Processes new and changed animal and location information into a database.")
+    SystemDb(animal_db, "Animals")
+    SystemDb(ubn_db, "UBN's")
+
+    Rel(ienr, animal_db, "Uses")
+    Rel(ienr, ubn_db, "Uses")
+
+    System(administration, "RasWeb", "Contains all location- and animal information, with the correct business categories and animal categories.")
+
+    Rel(ienr, administration, "Uses")
+}
+
+Rel(rvo_app, ienr, "Animal information", "API, HTTPS")
+
+Person(farmer2, "Farmer", "A farmer, using information from the administration system.")
+Person(accountant2, "Accountant", "An accountant, doing accountant stuff.")
+
+Rel(farmer2, administration, "Using")
+Rel(accountant2, administration, "Using")
+
+@enduml
+

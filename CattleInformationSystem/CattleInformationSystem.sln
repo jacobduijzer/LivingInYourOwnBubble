@@ -3,17 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS.Web", "src\CIS.Web\CIS.Web.csproj", "{6D3C47EF-86F1-4A06-8251-D3813916EA7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Api", "src\CattleInformationSystem.Api\CattleInformationSystem.Api.csproj", "{C0F4993C-A011-49C6-80DD-E432CA8E342F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B485FE5-BF1F-49F8-A662-CB9E2442189D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Infrastructure", "src\CattleInformationSystem.Infrastructure\CattleInformationSystem.Infrastructure.csproj", "{2632043B-E661-4103-AFF7-8A524B3DF1E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Application", "src\CattleInformationSystem.Application\CattleInformationSystem.Application.csproj", "{62ADAD84-AE71-4968-A405-825EBAF66CC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Domain", "src\CattleInformationSystem.Domain\CattleInformationSystem.Domain.csproj", "{807E493C-6037-4C0E-B9A3-5C9B6202388D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{EA0EAD49-D80F-4344-89F3-7B6FE7281E90}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
-		docker-compose.yml = docker-compose.yml
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS.Infrastructure", "src\CIS.Infrastructure\CIS.Infrastructure.csproj", "{66A9D871-2623-45B3-A492-21D99B502CBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.TestData", "src\CattleInformationSystem.TestData\CattleInformationSystem.TestData.csproj", "{70EC9F1B-D255-4A4C-BD8F-2DFB970AD3A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CIS.Domain", "src\CIS.Domain\CIS.Domain.csproj", "{268FEB24-DD53-47B4-B910-2C6A73A03040}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.UnitTests", "src\CattleInformationSystem.UnitTests\CattleInformationSystem.UnitTests.csproj", "{FCF5C04B-477D-476F-98BB-F07E01C645DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Web", "src\CattleInformationSystem.Web\CattleInformationSystem.Web.csproj", "{4ADDAAF5-35A1-4B81-8013-3CF09539523C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,17 +32,33 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6D3C47EF-86F1-4A06-8251-D3813916EA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D3C47EF-86F1-4A06-8251-D3813916EA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D3C47EF-86F1-4A06-8251-D3813916EA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D3C47EF-86F1-4A06-8251-D3813916EA7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66A9D871-2623-45B3-A492-21D99B502CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66A9D871-2623-45B3-A492-21D99B502CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66A9D871-2623-45B3-A492-21D99B502CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66A9D871-2623-45B3-A492-21D99B502CBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{268FEB24-DD53-47B4-B910-2C6A73A03040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{268FEB24-DD53-47B4-B910-2C6A73A03040}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{268FEB24-DD53-47B4-B910-2C6A73A03040}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{268FEB24-DD53-47B4-B910-2C6A73A03040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62ADAD84-AE71-4968-A405-825EBAF66CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62ADAD84-AE71-4968-A405-825EBAF66CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62ADAD84-AE71-4968-A405-825EBAF66CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62ADAD84-AE71-4968-A405-825EBAF66CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{807E493C-6037-4C0E-B9A3-5C9B6202388D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{807E493C-6037-4C0E-B9A3-5C9B6202388D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{807E493C-6037-4C0E-B9A3-5C9B6202388D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{807E493C-6037-4C0E-B9A3-5C9B6202388D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70EC9F1B-D255-4A4C-BD8F-2DFB970AD3A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EC9F1B-D255-4A4C-BD8F-2DFB970AD3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EC9F1B-D255-4A4C-BD8F-2DFB970AD3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EC9F1B-D255-4A4C-BD8F-2DFB970AD3A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCF5C04B-477D-476F-98BB-F07E01C645DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF5C04B-477D-476F-98BB-F07E01C645DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF5C04B-477D-476F-98BB-F07E01C645DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF5C04B-477D-476F-98BB-F07E01C645DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ADDAAF5-35A1-4B81-8013-3CF09539523C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ADDAAF5-35A1-4B81-8013-3CF09539523C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ADDAAF5-35A1-4B81-8013-3CF09539523C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ADDAAF5-35A1-4B81-8013-3CF09539523C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

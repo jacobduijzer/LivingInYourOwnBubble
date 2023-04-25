@@ -1,0 +1,40 @@
+@page
+@model CattleInformationSystem.Web.Pages.FarmDetails
+
+@{
+    ViewData["Title"] = "Farm Details";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.FarmData != null)
+{
+    <h3>UBN: @Model.FarmData.UBN</h3>
+    <h3>Farm Type: @Model.FarmData.FarmType</h3>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Lifenumber</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date Of Birth</th>
+            <th scope="col">Date First Calved</th>
+            <th scope="col">Date Of Death</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i = 1; i < Model.FarmData.Cows.Count; i++)
+        {
+            var cow = Model.FarmData.Cows[i];
+            <tr>
+                <th scope="row">@i</th>
+                <td><a class="nav-link text-dark" asp-area="" asp-page="/CowDetails" asp-route-cowId="@cow.Id">@cow.LifeNumber</a></td>
+                <td>@cow.Gender</td>
+                <td>@Model.DateFormatter(cow.DateOfBirth)</td>
+                <td>@Model.DateFormatter(cow.DateFirstCalved)</td>
+                <td>@Model.DateFormatter(cow.DateOfDeath)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

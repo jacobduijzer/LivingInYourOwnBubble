@@ -1,0 +1,25 @@
+@startuml
+
+title Determination of Farm Type
+
+start
+:Cow;
+if (What is the gender?) then (Female)
+	:Start at "Breeder for Milk" farm;
+	repeat
+	    if (> 2 yrs) then (Yes)
+	    :Update cow to Calved;
+	    :Transport cow to Milk Farm;
+	    stop
+	    else (No)
+	    endif
+	repeat while (Has cow calved?) is (Not yet)
+	-[hidden]->
+  detach
+	stop
+else (Male)
+	:Start at "Breeder for Meat" farm;
+	stop
+endif
+
+@enduml

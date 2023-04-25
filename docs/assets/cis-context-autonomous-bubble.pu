@@ -1,0 +1,42 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+' settings & styling
+skinparam titleFontSize 32
+
+title Cattle Information System with __Autonomous Bubble__ Contexts
+
+' variables
+!$farm_animal_info = "Updates on farm and animal information."
+
+
+Person(farmer, "Farmer", "Manages all farm and animal data.")
+Person(accountant, "Accountant", "Does the farm and agricultural accounting for farmers.")
+Lay_L(farmer, accountant)
+
+Enterprise_Boundary(cis, "Cattle Information System") {
+	System(cis_ienr, "Identification & Registration", "Local, enriched copy with all farm- and animalinformation needed.")
+	SystemDb(db, "Database", "Farm- and animal data, authorizations, etc.")
+	System(agrival, "AgriValuate", "Application for farm accounting.")
+	System(bubble_animals, "Animals Bubble Context")
+	System(bubble_farms, "Farms Bubble Context")
+	Lay_R(bubble_animals, bubble_farms)
+	Rel(agrival, bubble_farms, "Uses")
+	Rel(cis_ienr, bubble_farms, "Raw farm data")
+	Rel(agrival, bubble_animals, "Uses")
+	Rel(cis_ienr, bubble_animals, "Raw cattle data")
+
+	Rel(accountant, cis_ienr, "Authorizations")
+	Rel(cis_ienr, db, "Uses")
+	Rel_R(agrival, cis_ienr, "Uses")
+	Rel(accountant, agrival, "Uses")
+}
+
+System_Ext(fms, "Farm Management System")
+System_Ext(ienr, "Identification & Registration", $sprite="img:rvo.png")
+
+Rel_D(farmer, fms, $farm_animal_info)
+Rel_D(fms, ienr, $farm_animal_info)
+Rel_R(ienr, cis_ienr, $farm_animal_info)
+
+@enduml
