@@ -11,14 +11,18 @@ public class DatabaseContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<FarmCow>().HasKey(sc => new { sc.FarmId, sc.CowId });
-        
         modelBuilder.Entity<Farm>()
-            .HasMany(farm => farm.Cows)
-            .WithMany(cow => cow.Farms)
-            .UsingEntity<FarmCow>(
-                l => l.HasOne<Cow>(e => e.Cow).WithMany(e => e.FarmCows).HasForeignKey(e => e.CowId),
-                r => r.HasOne<Farm>(e => e.Farm).WithMany(e => e.FarmCows).HasForeignKey(e => e.FarmId));
+            .HasMany(f => f.Cows)
+            .WithMany(c => c.Farms)
+            .UsingEntity<FarmCow>();
+        // modelBuilder.Entity<FarmCow>().HasKey(sc => new { sc.FarmId, sc.CowId });
+        //
+        // modelBuilder.Entity<Farm>()
+        //     .HasMany(farm => farm.Cows)
+        //     .WithMany(cow => cow.Farms)
+        //     .UsingEntity<FarmCow>(
+        //         l => l.HasOne<Cow>(e => e.Cow).WithMany(e => e.FarmCows).HasForeignKey(e => e.CowId),
+        //         r => r.HasOne<Farm>(e => e.Farm).WithMany(e => e.FarmCows).HasForeignKey(e => e.FarmId));
     }
 
     public DbSet<Farm> Farms => Set<Farm>();

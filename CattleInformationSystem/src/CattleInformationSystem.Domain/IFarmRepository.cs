@@ -10,5 +10,7 @@ public interface IFarmRepository
 
     Task<Farm> ById(int farmId);
 
+    Task<Farm> ByIdWithHistory(int farmId);
+
     Task SaveChanges();
 }

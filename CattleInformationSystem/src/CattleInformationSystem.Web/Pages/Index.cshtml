@@ -1,4 +1,5 @@
 ﻿@page
+@using CattleInformationSystem.Application
 @model IndexModel
 @{
     ViewData["Title"] = "Farms";
@@ -24,7 +25,8 @@
                 <th scope="row">@(++farmCount)</th>
                 <td><a class="nav-link text-dark" asp-area="" asp-page="/FarmDetails" asp-route-farmId="@farm.Id">@farm.UBN</a></td>
                 <td>@farm.FarmType</td>
-                <td>@farm.FarmCows.Count(x => x.EndDate.HasValue)</td>
+                <td>@(farm.Cows != null ? farm.Cows.Count() : 0 )</td>
+                
             </tr>
         }
         </tbody>

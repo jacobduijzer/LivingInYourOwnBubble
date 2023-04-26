@@ -20,7 +20,8 @@ public class FarmRepository : IFarmRepository
 
     public async Task<List<Farm>> All() =>
         await _databaseContext.Farms
-            .Include(farm => farm.FarmCows)
+            .Include(farm => farm.FarmCows.Where(fc => !fc.EndDate.HasValue))
+            .ThenInclude(x => x.Cow)
             .ToListAsync();
 
     public async Task<List<Farm>> ByType(FarmType farmType) =>
@@ -31,8 +32,14 @@ public class FarmRepository : IFarmRepository
 
     public async Task<Farm> ById(int farmId) =>
         await _databaseContext.Farms
-            .Include(farm => farm.FarmCows.Where(fc => fc.EndDate.HasValue))
-            .ThenInclude(farm => farm.Cow)
+            .Include(farm => farm.FarmCows.Where(fc => !fc.EndDate.HasValue))
+            .ThenInclude(x => x.Cow)
+            .FirstOrDefaultAsync(farm => farm.Id == farmId);
+
+    public async Task<Farm> ByIdWithHistory(int farmId) =>
+        await _databaseContext.Farms
+            .Include(farm => farm.FarmCows)
+            .ThenInclude(x => x.Cow)
             .FirstOrDefaultAsync(farm => farm.Id == farmId);
 
     public async Task SaveChanges()
