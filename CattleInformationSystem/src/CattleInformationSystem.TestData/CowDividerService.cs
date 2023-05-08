@@ -15,19 +15,6 @@ public class CowDividerService
     {
         Stack<Cow> femaleStack = new Stack<Cow>(cows.Where(cow => cow.Gender == Gender.Female));
         Stack<Cow> maleStack = new Stack<Cow>(cows.Where(cow => cow.Gender == Gender.Male));
-        
-    // public static class Extensions
-    // {
-    //     public static List<T> PopRange<T>(this Stack<T> stack, int amount)
-    //     {
-    //         var result = new List<T>(amount);
-    //         while (amount-- > 0 && stack.Count > 0)
-    //         {
-    //             result.Add(stack.Pop());
-    //         }
-    //         return result;
-    //     }
-    // }
     
         // female
         var totalFemale = cows.Count(cow => cow.Gender == Gender.Female);
