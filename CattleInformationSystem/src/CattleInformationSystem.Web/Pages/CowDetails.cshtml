@@ -36,7 +36,38 @@
         </tr>
         </tbody>
     </table>
+    
+    @if (Model.CowData.CowEvents != null && Model.CowData.CowEvents.Any())
+    {
 
+        <h2>Cow Events</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">UBN</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Category</th>
+                <th scope="col">Order</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var (cowEvent, index) in Model.CowData.CowEvents.WithIndex())
+            {
+                <tr>
+                    <th scope="row">@(index + 1)</th>
+                    <td>@cowEvent.Farm.UBN</td>
+                    <td>@cowEvent.Reason</td>
+                    <td>@cowEvent.Category</td>
+                    <td>@cowEvent.Order</td>
+                    @* <td>@DateFormatter.Format(farmCow.EndDate)</td> *@
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    
+    
     <h2>Cow History</h2>
     <table class="table">
         <thead>

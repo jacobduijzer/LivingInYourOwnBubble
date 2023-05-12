@@ -7,4 +7,6 @@ public interface ICowRepository
    Task<List<Cow?>> All();
 
    Task<Cow?> ById(int id);
+
+   Task<Cow?> ByLifeNumber(string lifeNumber);
 }

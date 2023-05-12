@@ -24,6 +24,14 @@ public class CowRepository : ICowRepository
    public async Task<Cow?> ById(int id) =>
       await _databaseContext.Cows
          .Include(cow => cow.FarmCows.OrderBy(fc => fc.StartDate))
-         .ThenInclude(cow => cow.Farm)
+         .Include(cow => cow.CowEvents.OrderBy(ce => ce.Order))
+         .Include(cow => cow.Farms)
          .FirstOrDefaultAsync(cow => cow != null && cow.Id == id);
+
+   public async Task<Cow?> ByLifeNumber(string lifeNumber) =>
+      await _databaseContext.Cows
+         .Include(cow => cow.FarmCows.OrderBy(fc => fc.StartDate))
+         .Include(cow => cow.CowEvents.OrderBy(ce => ce.Order))
+         .ThenInclude(cow => cow.Farm)
+         .FirstOrDefaultAsync(cow => cow != null && cow.LifeNumber.Equals(lifeNumber));
 }

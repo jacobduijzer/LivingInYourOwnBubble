@@ -8,24 +8,24 @@ public class DatabaseContext : DbContext
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
     }
-    
+
+    public DbSet<Farm> Farms => Set<Farm>();
+    public DbSet<Cow?> Cows => Set<Cow>();
+    public DbSet<FarmCow> FarmCows => Set<FarmCow>();
+    public DbSet<CowEvent> CowEvents => Set<CowEvent>();
+    public DbSet<IncomingCowEvent> IncomingCowEvents => Set<IncomingCowEvent>();
+    public DbSet<AnimalCategory> AnimalCategories => Set<AnimalCategory>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Farm>()
             .HasMany(f => f.Cows)
             .WithMany(c => c.Farms)
             .UsingEntity<FarmCow>();
-        // modelBuilder.Entity<FarmCow>().HasKey(sc => new { sc.FarmId, sc.CowId });
-        //
-        // modelBuilder.Entity<Farm>()
-        //     .HasMany(farm => farm.Cows)
-        //     .WithMany(cow => cow.Farms)
-        //     .UsingEntity<FarmCow>(
-        //         l => l.HasOne<Cow>(e => e.Cow).WithMany(e => e.FarmCows).HasForeignKey(e => e.CowId),
-        //         r => r.HasOne<Farm>(e => e.Farm).WithMany(e => e.FarmCows).HasForeignKey(e => e.FarmId));
-    }
 
-    public DbSet<Farm> Farms => Set<Farm>();
-    public DbSet<Cow?> Cows => Set<Cow>();
-    public DbSet<FarmCow> FarmCows => Set<FarmCow>();
+        // modelBuilder.Entity<AnimalCategory>()
+        //     .HasNoKey()
+        //     .HasData(
+      
+    }
 }

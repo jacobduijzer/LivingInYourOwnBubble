@@ -11,6 +11,7 @@ public class Cow
     public DateTime DateOfBirth { get; set; }
     public DateTime? DateFirstCalved { get; set; }
     public DateTime? DateOfDeath { get; set; }
+    public IList<CowEvent> CowEvents { get; set; }
     public IList<Farm> Farms { get; set; }
     public IList<FarmCow> FarmCows { get; set; }
 }

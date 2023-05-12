@@ -1,5 +1,6 @@
 using CattleInformationSystem.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace CattleInformationSystem.Infrastructure;
 
@@ -15,6 +16,17 @@ public class FarmRepository : IFarmRepository
     public async Task AddRange(List<Farm> farms)
     {
         await _databaseContext.Farms.AddRangeAsync(farms);
+        await _databaseContext.SaveChangesAsync();
+    }
+
+    public async Task AddOrUpdate(Farm farm)
+    {
+        var existingFarm = await _databaseContext.Farms.FirstOrDefaultAsync(farm => farm.UBN.Equals(farm.UBN));
+        if (existingFarm != null)
+            existingFarm.FarmType = farm.FarmType;
+        else
+            await _databaseContext.Farms.AddAsync(farm);
+        
         await _databaseContext.SaveChangesAsync();
     }
 

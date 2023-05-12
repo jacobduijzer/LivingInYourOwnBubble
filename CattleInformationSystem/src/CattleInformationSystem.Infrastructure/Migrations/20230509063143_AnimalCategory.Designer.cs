@@ -3,6 +3,7 @@ using System;
 using CattleInformationSystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CattleInformationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230509063143_AnimalCategory")]
+    partial class AnimalCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,41 +85,6 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     b.ToTable("Cows");
                 });
 
-            modelBuilder.Entity("CattleInformationSystem.Domain.CowEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Category")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CowId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("FarmId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Reason")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CowId");
-
-                    b.HasIndex("FarmId");
-
-                    b.ToTable("CowEvents");
-                });
-
             modelBuilder.Entity("CattleInformationSystem.Domain.Farm", b =>
                 {
                     b.Property<int>("Id")
@@ -161,61 +129,6 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     b.ToTable("FarmCows");
                 });
 
-            modelBuilder.Entity("CattleInformationSystem.Domain.IncomingCowEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LifeNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Reason")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UBN_1")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UBN_2")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IncomingCowEvents");
-                });
-
-            modelBuilder.Entity("CattleInformationSystem.Domain.CowEvent", b =>
-                {
-                    b.HasOne("CattleInformationSystem.Domain.Cow", "Cow")
-                        .WithMany("CowEvents")
-                        .HasForeignKey("CowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CattleInformationSystem.Domain.Farm", "Farm")
-                        .WithMany()
-                        .HasForeignKey("FarmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cow");
-
-                    b.Navigation("Farm");
-                });
-
             modelBuilder.Entity("CattleInformationSystem.Domain.FarmCow", b =>
                 {
                     b.HasOne("CattleInformationSystem.Domain.Cow", "Cow")
@@ -237,8 +150,6 @@ namespace CattleInformationSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("CattleInformationSystem.Domain.Cow", b =>
                 {
-                    b.Navigation("CowEvents");
-
                     b.Navigation("FarmCows");
                 });
 

@@ -16,4 +16,13 @@
       <ProjectReference Include="..\CattleInformationSystem.Domain\CattleInformationSystem.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="incoming_cow_event.sql">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="detemine_animal_category.sql">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
