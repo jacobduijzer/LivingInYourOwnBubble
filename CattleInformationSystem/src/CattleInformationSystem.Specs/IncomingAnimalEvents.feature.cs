@@ -769,7 +769,7 @@ namespace CattleInformationSystem.Specs
                 table16.AddRow(new string[] {
                             "20000000002",
                             "Departure",
-                            "0",
+                            "1",
                             "2018-07-25",
                             "0"});
                 table16.AddRow(new string[] {
@@ -851,7 +851,7 @@ namespace CattleInformationSystem.Specs
                 table18.AddRow(new string[] {
                             "20000000002",
                             "Departure",
-                            "0",
+                            "1",
                             "2018-07-25",
                             "0"});
                 table18.AddRow(new string[] {

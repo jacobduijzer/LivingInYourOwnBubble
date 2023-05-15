@@ -148,7 +148,7 @@ Animal events, coming from the Netherlands Enterprise Agency (RVO) should be pro
         And have the events(s)
           | Farm        | Reason    | Order | Date       | Category |
           | 20000000002 | Birth     | 0     | 2017-03-23 | 0        |
-          | 20000000002 | Departure | 0     | 2018-07-25 | 0        |
+          | 20000000002 | Departure | 1     | 2018-07-25 | 0        |
           | 20000000006 | Arrival   | 0     | 2018-07-25 | 0        |
 
     Scenario: Male, being born on a meat breeding farm, moved to a milk breeding farm
@@ -165,5 +165,5 @@ Animal events, coming from the Netherlands Enterprise Agency (RVO) should be pro
         And have the events(s)
           | Farm        | Reason    | Order | Date       | Category |
           | 20000000002 | Birth     | 0     | 2017-03-23 | 0        |
-          | 20000000002 | Departure | 0     | 2018-07-25 | 0        |
+          | 20000000002 | Departure | 1     | 2018-07-25 | 0        |
           | 20000000001 | Arrival   | 0     | 2018-07-25 | 101      |
