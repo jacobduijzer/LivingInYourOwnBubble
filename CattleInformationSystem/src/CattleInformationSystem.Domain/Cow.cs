@@ -8,9 +8,9 @@ public class Cow
     public int Id { get; set; }
     public string LifeNumber { get; set; }
     public Gender Gender { get; set; }
-    public DateTime DateOfBirth { get; set; }
-    public DateTime? DateFirstCalved { get; set; }
-    public DateTime? DateOfDeath { get; set; }
+    public DateOnly DateOfBirth { get; set; }
+    public DateOnly? DateFirstCalved { get; set; }
+    public DateOnly? DateOfDeath { get; set; }
     public IList<CowEvent> CowEvents { get; set; }
     public IList<Farm> Farms { get; set; }
     public IList<FarmCow> FarmCows { get; set; }

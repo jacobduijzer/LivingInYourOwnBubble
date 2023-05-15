@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CattleInformationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230509083254_IncomingCowEvents")]
-    partial class IncomingCowEvents
+    [Migration("20230512114307_UniqueIdForFarmCow")]
+    partial class UniqueIdForFarmCow
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,9 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     b.Property<int>("CowId")
                         .HasColumnType("integer");
 
+                    b.Property<DateOnly>("EventDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("FarmId")
                         .HasColumnType("integer");
 
@@ -142,19 +145,27 @@ namespace CattleInformationSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("CattleInformationSystem.Domain.FarmCow", b =>
                 {
-                    b.Property<int>("CowId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int>("FarmId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CowId")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly?>("EndDate")
                         .HasColumnType("date");
 
+                    b.Property<int>("FarmId")
+                        .HasColumnType("integer");
+
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("date");
 
-                    b.HasKey("CowId", "FarmId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CowId");
 
                     b.HasIndex("FarmId");
 
@@ -169,10 +180,10 @@ namespace CattleInformationSystem.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("CreatedOn")
+                    b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("DateOfBirth")
+                    b.Property<DateOnly>("EventDate")
                         .HasColumnType("date");
 
                     b.Property<int>("Gender")
@@ -200,7 +211,7 @@ namespace CattleInformationSystem.Infrastructure.Migrations
             modelBuilder.Entity("CattleInformationSystem.Domain.CowEvent", b =>
                 {
                     b.HasOne("CattleInformationSystem.Domain.Cow", "Cow")
-                        .WithMany()
+                        .WithMany("CowEvents")
                         .HasForeignKey("CowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -237,6 +248,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("CattleInformationSystem.Domain.Cow", b =>
                 {
+                    b.Navigation("CowEvents");
+
                     b.Navigation("FarmCows");
                 });
 

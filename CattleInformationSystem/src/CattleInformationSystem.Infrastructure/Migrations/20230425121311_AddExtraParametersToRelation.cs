@@ -11,16 +11,16 @@ namespace CattleInformationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "EndDate",
                 table: "FarmCows",
-                type: "timestamp with time zone",
+                type: "date",
                 nullable: true);
 
-            migrationBuilder.AddColumn<DateTime>(
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "StartDate",
                 table: "FarmCows",
-                type: "timestamp with time zone",
+                type: "date",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }

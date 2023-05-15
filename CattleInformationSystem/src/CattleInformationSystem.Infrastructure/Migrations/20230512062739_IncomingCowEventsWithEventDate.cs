@@ -16,12 +16,12 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                 table: "IncomingCowEvents",
                 newName: "EventDate");
 
-            migrationBuilder.AddColumn<DateTime>(
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "EventDate",
                 table: "CowEvents",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: DateOnly.MinValue);
         }
 
         /// <inheritdoc />

@@ -24,12 +24,12 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                 table: "IncomingCowEvents",
                 newName: "Gender");
 
-            migrationBuilder.AddColumn<DateTime>(
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "DateOfBirth",
                 table: "IncomingCowEvents",
-                type: "timestamp with time zone",
+                type: "date",
                 nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                defaultValue: DateOnly.MinValue);
 
             migrationBuilder.AddColumn<string>(
                 name: "LifeNumber",

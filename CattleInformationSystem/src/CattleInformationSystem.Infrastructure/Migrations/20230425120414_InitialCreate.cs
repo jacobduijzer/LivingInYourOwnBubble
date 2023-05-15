@@ -20,8 +20,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LifeNumber = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateOfDeath = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DateOfBirth = table.Column<DateTime>(type: "date", nullable: false),
+                    DateOfDeath = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {

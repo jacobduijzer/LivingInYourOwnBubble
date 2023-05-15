@@ -61,14 +61,14 @@ namespace CattleInformationSystem.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DateFirstCalved")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateFirstCalved")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime?>("DateOfDeath")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("DateOfDeath")
+                        .HasColumnType("date");
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
@@ -148,11 +148,11 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     b.Property<int>("FarmId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.HasKey("CowId", "FarmId");
 
@@ -172,8 +172,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     b.Property<int>("CowId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("CreatedOn")
+                        .HasColumnType("date");
 
                     b.Property<int>("Reason")
                         .HasColumnType("integer");

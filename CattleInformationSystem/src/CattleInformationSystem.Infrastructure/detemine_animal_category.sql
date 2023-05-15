@@ -13,7 +13,9 @@ BEGIN
         RETURN QUERY
             SELECT "Category"
             FROM "AnimalCategories"
-            WHERE "Gender" = gender AND "Calved" = calved AND "FarmType" = farm_type AND "AgeInDays" <= age;
+            WHERE "Gender" = gender AND "Calved" = calved AND "FarmType" = farm_type AND "AgeInDays" <= age
+            ORDER BY "AgeInDays" DESC
+            LIMIT 1;
     ELSE
         RETURN QUERY
             SELECT 0;

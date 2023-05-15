@@ -2,13 +2,15 @@ using System.Text.Json.Serialization;
 using CattleInformationSystem.Application;
 using CattleInformationSystem.Domain;
 using CattleInformationSystem.Infrastructure;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
+var loggerFactory = LoggerFactory.Create(conf => conf.AddConsole());
+NpgsqlLoggingConfiguration.InitializeLogging(loggerFactory);
+builder.Logging.AddConsole();
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<ICowRepository, CowRepository>();
 builder.Services.AddScoped<IFarmRepository, FarmRepository>();
@@ -25,7 +27,6 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 });
 
 var app = builder.Build();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();

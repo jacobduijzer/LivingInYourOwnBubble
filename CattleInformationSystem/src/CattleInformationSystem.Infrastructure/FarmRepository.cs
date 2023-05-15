@@ -21,7 +21,7 @@ public class FarmRepository : IFarmRepository
 
     public async Task AddOrUpdate(Farm farm)
     {
-        var existingFarm = await _databaseContext.Farms.FirstOrDefaultAsync(farm => farm.UBN.Equals(farm.UBN));
+        var existingFarm = await _databaseContext.Farms.FirstOrDefaultAsync(f => f.UBN.Equals(farm.UBN));
         if (existingFarm != null)
             existingFarm.FarmType = farm.FarmType;
         else

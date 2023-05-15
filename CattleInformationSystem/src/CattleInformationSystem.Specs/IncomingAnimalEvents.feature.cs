@@ -41,7 +41,7 @@ namespace CattleInformationSystem.Specs
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "", "Incoming Animal Events", "Animal events, coming from the Netherlands Enterprise Agency (RVO) should be proc" +
-                    "essed into the database.\nTODO: work with real ubn\'s and life numbers?", ProgrammingLanguage.CSharp, featureTags);
+                    "essed into the database.", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -78,34 +78,25 @@ namespace CattleInformationSystem.Specs
         
         public virtual void FeatureBackground()
         {
-#line 5
+#line 4
     #line hidden
+#line 5
+        testRunner.Given("a farm of type \'BreedingForMilk\', with UBN \'20000000001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 6
-        testRunner.Given("a farm of type \'BreedingForMilk\', with UBN \'21234567890\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.And("a farm of type \'BreedingForMeat\', with UBN \'20000000002\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Key",
-                        "Value"});
-            table1.AddRow(new string[] {
-                        "Life Number",
-                        "10987654321"});
-            table1.AddRow(new string[] {
-                        "Gender",
-                        "Female"});
-            table1.AddRow(new string[] {
-                        "Ubn",
-                        "21234567890"});
-            table1.AddRow(new string[] {
-                        "Reason",
-                        "Birth"});
-            table1.AddRow(new string[] {
-                        "EventDate",
-                        "2017-03-23"});
 #line 7
-        testRunner.Given("an animal, born today", ((string)(null)), table1, "Given ");
+        testRunner.And("a farm of type \'Milk\', with UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 14
-        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
+        testRunner.And("a farm of type \'Milk\', with UBN \'20000000004\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
+        testRunner.And("a farm of type \'Milk\', with UBN \'20000000005\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+        testRunner.And("a farm of type \'Meat\', with UBN \'20000000006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -114,15 +105,15 @@ namespace CattleInformationSystem.Specs
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Being born")]
+        [Xunit.SkippableFactAttribute(DisplayName="Female, Being born")]
         [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
-        [Xunit.TraitAttribute("Description", "Being born")]
-        public void BeingBorn()
+        [Xunit.TraitAttribute("Description", "Female, Being born")]
+        public void FemaleBeingBorn()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Being born", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 16
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, Being born", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 12
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -132,40 +123,64 @@ namespace CattleInformationSystem.Specs
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 4
     this.FeatureBackground();
 #line hidden
-#line 17
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table1.AddRow(new string[] {
+                            "Life Number",
+                            "10000000001"});
+                table1.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table1.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table1.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table1.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 13
+        testRunner.Given("an animal, born today", ((string)(null)), table1, "Given ");
+#line hidden
+#line 20
+        testRunner.When("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 21
         testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Farm",
                             "Reason",
                             "Order",
-                            "EventDate",
+                            "Date",
                             "Category"});
                 table2.AddRow(new string[] {
-                            "21234567890",
+                            "20000000001",
                             "Birth",
-                            "1",
+                            "0",
                             "2017-03-23",
                             "101"});
-#line 18
+#line 22
         testRunner.And("have the events(s)", ((string)(null)), table2, "And ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Sold and bought")]
+        [Xunit.SkippableFactAttribute(DisplayName="Female, sold and bought to a milk farm")]
         [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
-        [Xunit.TraitAttribute("Description", "Sold and bought")]
-        public void SoldAndBought()
+        [Xunit.TraitAttribute("Description", "Female, sold and bought to a milk farm")]
+        public void FemaleSoldAndBoughtToAMilkFarm()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sold and bought", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 22
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, sold and bought to a milk farm", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 26
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -175,41 +190,678 @@ namespace CattleInformationSystem.Specs
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 4
     this.FeatureBackground();
 #line hidden
-#line 23
-        testRunner.When("it is sold today, to a UBN of type \'Milk\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table3.AddRow(new string[] {
+                            "Life Number",
+                            "10000000002"});
+                table3.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table3.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table3.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table3.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 27
+        testRunner.Given("an animal, born today", ((string)(null)), table3, "Given ");
 #line hidden
-#line 24
+#line 34
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 35
+        testRunner.When("it is moved on \'2017-03-25\', from UBN \'20000000001\' to UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 36
         testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "Farm",
                             "Reason",
                             "Order",
                             "Date",
                             "Category"});
-                table3.AddRow(new string[] {
-                            "BreedingForMilk",
+                table4.AddRow(new string[] {
+                            "20000000001",
                             "Birth",
-                            "1",
-                            "Today",
+                            "0",
+                            "2017-03-23",
                             "101"});
-                table3.AddRow(new string[] {
-                            "BreedingForMilk",
+                table4.AddRow(new string[] {
+                            "20000000001",
                             "Departure",
-                            "2",
-                            "Today",
-                            "101"});
-                table3.AddRow(new string[] {
-                            "Milk",
-                            "Arrival",
                             "1",
-                            "Today",
+                            "2017-03-25",
                             "101"});
-#line 25
-        testRunner.And("have the events(s)", ((string)(null)), table3, "And ");
+                table4.AddRow(new string[] {
+                            "20000000003",
+                            "Arrival",
+                            "0",
+                            "2017-03-25",
+                            "101"});
+#line 37
+        testRunner.And("have the events(s)", ((string)(null)), table4, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Female, sold and bought to a meat farm")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Female, sold and bought to a meat farm")]
+        public void FemaleSoldAndBoughtToAMeatFarm()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, sold and bought to a meat farm", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 43
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table5.AddRow(new string[] {
+                            "Life Number",
+                            "10000000003"});
+                table5.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table5.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table5.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table5.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 44
+        testRunner.Given("an animal, born today", ((string)(null)), table5, "Given ");
+#line hidden
+#line 51
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 52
+        testRunner.When("it is moved on \'2017-03-25\', from UBN \'20000000001\' to UBN \'20000000006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 53
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table6.AddRow(new string[] {
+                            "20000000001",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "101"});
+                table6.AddRow(new string[] {
+                            "20000000001",
+                            "Departure",
+                            "1",
+                            "2017-03-25",
+                            "101"});
+                table6.AddRow(new string[] {
+                            "20000000006",
+                            "Arrival",
+                            "0",
+                            "2017-03-25",
+                            "101"});
+#line 54
+        testRunner.And("have the events(s)", ((string)(null)), table6, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Female, sold and bought to 3 farms")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Female, sold and bought to 3 farms")]
+        public void FemaleSoldAndBoughtTo3Farms()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, sold and bought to 3 farms", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 60
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table7.AddRow(new string[] {
+                            "Life Number",
+                            "10000000004"});
+                table7.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table7.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table7.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table7.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 61
+        testRunner.Given("an animal, born today", ((string)(null)), table7, "Given ");
+#line hidden
+#line 68
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 69
+        testRunner.When("it is moved on \'2017-03-25\', from UBN \'20000000001\' to UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 70
+        testRunner.And("it is moved on \'2017-05-01\', from UBN \'20000000003\' to UBN \'20000000004\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 71
+        testRunner.And("it is moved on \'2017-08-27\', from UBN \'20000000004\' to UBN \'20000000005\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 72
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table8.AddRow(new string[] {
+                            "20000000001",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000001",
+                            "Departure",
+                            "1",
+                            "2017-03-25",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000003",
+                            "Arrival",
+                            "0",
+                            "2017-03-25",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000003",
+                            "Departure",
+                            "1",
+                            "2017-05-01",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000004",
+                            "Arrival",
+                            "0",
+                            "2017-05-01",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000004",
+                            "Departure",
+                            "1",
+                            "2017-08-27",
+                            "101"});
+                table8.AddRow(new string[] {
+                            "20000000005",
+                            "Arrival",
+                            "0",
+                            "2017-08-27",
+                            "101"});
+#line 73
+        testRunner.And("have the events(s)", ((string)(null)), table8, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Female, sold and bought to 1 farm, then dying")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Female, sold and bought to 1 farm, then dying")]
+        public void FemaleSoldAndBoughtTo1FarmThenDying()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, sold and bought to 1 farm, then dying", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 83
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table9.AddRow(new string[] {
+                            "Life Number",
+                            "10000000005"});
+                table9.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table9.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table9.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table9.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 84
+        testRunner.Given("an animal, born today", ((string)(null)), table9, "Given ");
+#line hidden
+#line 91
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 92
+        testRunner.When("it is moved on \'2017-03-25\', from UBN \'20000000001\' to UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 93
+        testRunner.And("it died on \'2017-04-05\' on UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 94
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table10.AddRow(new string[] {
+                            "20000000001",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "101"});
+                table10.AddRow(new string[] {
+                            "20000000001",
+                            "Departure",
+                            "1",
+                            "2017-03-25",
+                            "101"});
+                table10.AddRow(new string[] {
+                            "20000000003",
+                            "Arrival",
+                            "0",
+                            "2017-03-25",
+                            "101"});
+                table10.AddRow(new string[] {
+                            "20000000003",
+                            "Death",
+                            "1",
+                            "2017-04-05",
+                            "101"});
+#line 95
+        testRunner.And("have the events(s)", ((string)(null)), table10, "And ");
+#line hidden
+#line 101
+        testRunner.And("the cow should have a date of death of \'2017-04-05\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 102
+        testRunner.And("the end date on the latest location should be set to \'2017-04-05\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Female, sold and bought, gave birth")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Female, sold and bought, gave birth")]
+        public void FemaleSoldAndBoughtGaveBirth()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Female, sold and bought, gave birth", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 104
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table11.AddRow(new string[] {
+                            "Life Number",
+                            "10000000006"});
+                table11.AddRow(new string[] {
+                            "Gender",
+                            "Female"});
+                table11.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table11.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table11.AddRow(new string[] {
+                            "EventDate",
+                            "2017-05-01"});
+#line 105
+        testRunner.Given("an animal, born today", ((string)(null)), table11, "Given ");
+#line hidden
+#line 112
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 113
+        testRunner.When("it is moved on \'2018-07-25\', from UBN \'20000000001\' to UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 114
+        testRunner.And("it gave birth on \'2019-04-03\' on UBN \'20000000003\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 115
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table12.AddRow(new string[] {
+                            "20000000001",
+                            "Birth",
+                            "0",
+                            "2017-05-01",
+                            "101"});
+                table12.AddRow(new string[] {
+                            "20000000001",
+                            "Departure",
+                            "1",
+                            "2018-07-25",
+                            "101"});
+                table12.AddRow(new string[] {
+                            "20000000003",
+                            "Arrival",
+                            "0",
+                            "2018-07-25",
+                            "102"});
+                table12.AddRow(new string[] {
+                            "20000000003",
+                            "Calved",
+                            "1",
+                            "2019-04-03",
+                            "100"});
+#line 116
+        testRunner.And("have the events(s)", ((string)(null)), table12, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Male, Being born")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Male, Being born")]
+        public void MaleBeingBorn()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Male, Being born", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 123
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table13.AddRow(new string[] {
+                            "Life Number",
+                            "10000000007"});
+                table13.AddRow(new string[] {
+                            "Gender",
+                            "Male"});
+                table13.AddRow(new string[] {
+                            "Ubn",
+                            "20000000001"});
+                table13.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table13.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 124
+        testRunner.Given("an animal, born today", ((string)(null)), table13, "Given ");
+#line hidden
+#line 131
+        testRunner.When("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 132
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table14.AddRow(new string[] {
+                            "20000000001",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "101"});
+#line 133
+        testRunner.And("have the events(s)", ((string)(null)), table14, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Male, being born on a meat breeding farm, moved to different farms")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Male, being born on a meat breeding farm, moved to different farms")]
+        public void MaleBeingBornOnAMeatBreedingFarmMovedToDifferentFarms()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Male, being born on a meat breeding farm, moved to different farms", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 137
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table15.AddRow(new string[] {
+                            "Life Number",
+                            "10000000008"});
+                table15.AddRow(new string[] {
+                            "Gender",
+                            "Male"});
+                table15.AddRow(new string[] {
+                            "Ubn",
+                            "20000000002"});
+                table15.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table15.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 138
+        testRunner.Given("an animal, born today", ((string)(null)), table15, "Given ");
+#line hidden
+#line 145
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 146
+        testRunner.When("it is moved on \'2018-07-25\', from UBN \'20000000002\' to UBN \'20000000006\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 147
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table16.AddRow(new string[] {
+                            "20000000002",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "0"});
+                table16.AddRow(new string[] {
+                            "20000000002",
+                            "Departure",
+                            "0",
+                            "2018-07-25",
+                            "0"});
+                table16.AddRow(new string[] {
+                            "20000000006",
+                            "Arrival",
+                            "0",
+                            "2018-07-25",
+                            "0"});
+#line 148
+        testRunner.And("have the events(s)", ((string)(null)), table16, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Male, being born on a meat breeding farm, moved to a milk breeding farm")]
+        [Xunit.TraitAttribute("FeatureTitle", "Incoming Animal Events")]
+        [Xunit.TraitAttribute("Description", "Male, being born on a meat breeding farm, moved to a milk breeding farm")]
+        public void MaleBeingBornOnAMeatBreedingFarmMovedToAMilkBreedingFarm()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Male, being born on a meat breeding farm, moved to a milk breeding farm", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 154
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 4
+    this.FeatureBackground();
+#line hidden
+                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Key",
+                            "Value"});
+                table17.AddRow(new string[] {
+                            "Life Number",
+                            "10000000008"});
+                table17.AddRow(new string[] {
+                            "Gender",
+                            "Male"});
+                table17.AddRow(new string[] {
+                            "Ubn",
+                            "20000000002"});
+                table17.AddRow(new string[] {
+                            "Reason",
+                            "Birth"});
+                table17.AddRow(new string[] {
+                            "EventDate",
+                            "2017-03-23"});
+#line 155
+        testRunner.Given("an animal, born today", ((string)(null)), table17, "Given ");
+#line hidden
+#line 162
+        testRunner.And("it is added to the incoming events table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 163
+        testRunner.When("it is moved on \'2018-07-25\', from UBN \'20000000002\' to UBN \'20000000001\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 164
+        testRunner.Then("it should be processed and stored in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Farm",
+                            "Reason",
+                            "Order",
+                            "Date",
+                            "Category"});
+                table18.AddRow(new string[] {
+                            "20000000002",
+                            "Birth",
+                            "0",
+                            "2017-03-23",
+                            "0"});
+                table18.AddRow(new string[] {
+                            "20000000002",
+                            "Departure",
+                            "0",
+                            "2018-07-25",
+                            "0"});
+                table18.AddRow(new string[] {
+                            "20000000001",
+                            "Arrival",
+                            "0",
+                            "2018-07-25",
+                            "101"});
+#line 165
+        testRunner.And("have the events(s)", ((string)(null)), table18, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -41,7 +41,7 @@ public class FakeDataGenerator : IDataGenerator
          .RuleFor(cow => cow.LifeNumber, faker => $"200{DateTime.Now.Ticks}{lifeNumberId++}")
          .RuleFor(cow => cow.Gender, faker => faker.PickRandom<Gender>())
          .RuleFor(cow => cow.DateOfBirth,
-            faker => faker.Date.Between(StartDate, EndDate));
+            faker => DateOnly.Parse(faker.Date.Between(StartDate, EndDate).ToString()));
             
       return cows.Generate(NumberOfCowsPerBatch);
    }

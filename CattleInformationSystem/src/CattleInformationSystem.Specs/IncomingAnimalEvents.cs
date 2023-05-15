@@ -12,7 +12,6 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
     private IncomingCowEvent _incomingCowEvent;
     private Farm _targetFarm;
     private Cow? _cow;
-    private string _ubn;
 
     public IncomingAnimalEvents(CustomWebApplicationFactory<Program> factory)
     {
@@ -22,7 +21,6 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
     [Given(@"a farm of type '(.*)', with UBN '(.*)'")]
     public async Task GivenAFarmOfType(FarmType farmType, string ubn)
     {
-        _ubn = ubn;
         Farm farm = new Farm
         {
             UBN = ubn,
@@ -43,16 +41,70 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
         {
             LifeNumber = incomingCowEvent["Life Number"],
             Gender = Enum.Parse<Gender>(incomingCowEvent["Gender"]),
-            DateOfBirth = DateTime.Parse(incomingCowEvent["EventDate"]),
+            DateOfBirth = DateOnly.Parse(incomingCowEvent["EventDate"]),
             Reason = Enum.Parse<Reason>(incomingCowEvent["Reason"]),
-            UBN_1 = _ubn,
-            EventDate = DateTime.Parse(incomingCowEvent["EventDate"])
+            UBN_1 = incomingCowEvent["Ubn"],
+            EventDate = DateOnly.Parse(incomingCowEvent["EventDate"])
         };
     }
 
     [Given(@"it is added to the incoming events table")]
+    [When(@"it is added to the incoming events table")]
     public async Task WhenItIsAddedToTheIncomingEventsTable()
     {
+        await using var scope = _factory.Services.CreateAsyncScope();
+        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
+        await incomingCowEvents.Add(_incomingCowEvent);
+    }
+
+    [When(@"it is moved on '(.*)', from UBN '(.*)' to UBN '(.*)'")]
+    public async Task WhenItIsSoldOnToUbn(string eventDate, string fromUbn, string toUbn)
+    {
+        _incomingCowEvent = new IncomingCowEvent
+        {
+            LifeNumber = _incomingCowEvent.LifeNumber,
+            Gender = _incomingCowEvent.Gender,
+            DateOfBirth = _incomingCowEvent.DateOfBirth,
+            Reason = Reason.Departure,
+            UBN_1 = fromUbn,
+            UBN_2 = toUbn,
+            EventDate = DateOnly.Parse(eventDate)
+        };
+
+        await using var scope = _factory.Services.CreateAsyncScope();
+        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
+        await incomingCowEvents.Add(_incomingCowEvent);
+    }
+    
+    [When(@"it gave birth on '(.*)' on UBN '(.*)'")]
+    public async Task WhenItGaveBirthOnOnUbn(string eventDate, string ubn)
+    {
+        _incomingCowEvent = new IncomingCowEvent
+        {
+            LifeNumber = _incomingCowEvent.LifeNumber,
+            Gender = _incomingCowEvent.Gender,
+            Reason = Reason.Calved,
+            UBN_1 = ubn,
+            EventDate = DateOnly.Parse(eventDate)
+        };
+
+        await using var scope = _factory.Services.CreateAsyncScope();
+        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
+        await incomingCowEvents.Add(_incomingCowEvent);
+    }
+    
+    [When(@"it died on '(.*)' on UBN '(.*)'")]
+    public async Task WhenItDiedOnOnUbn(string eventDate, string ubn)
+    {
+        _incomingCowEvent = new IncomingCowEvent
+        {
+            LifeNumber = _incomingCowEvent.LifeNumber,
+            Gender = _incomingCowEvent.Gender,
+            Reason = Reason.Death,
+            UBN_1 = ubn,
+            EventDate = DateOnly.Parse(eventDate)
+        };
+
         await using var scope = _factory.Services.CreateAsyncScope();
         var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
         await incomingCowEvents.Add(_incomingCowEvent);
@@ -70,12 +122,37 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
     }
 
     [Then(@"have the events\(s\)")]
-    public void ThenHaveTheEvents(Table table)
+    public async Task ThenHaveTheEvents(Table table)
     {
-        var eventData = Extensions.ToDictionary(table);
-        Assert.True(_cow.CowEvents.Count() == 1, "There are more than 1 events.");
-        Assert.True(_cow.CowEvents.First().EventDate == DateTime.Parse(table.Rows[0]["EventDate"]));
-        Assert.True(_cow.CowEvents.First().Reason == Enum.Parse<Reason>(table.Rows[0]["Reason"]));
-        Assert.True(_cow.CowEvents.First().Category == int.Parse(table.Rows[0]["Category"]));
+        Assert.True(_cow.CowEvents.Count() == table.RowCount,
+            "The number of cow events is not the same as the expected events.");
+
+        foreach (var dataRow in table.Rows)
+        {
+            var cowEvent = _cow.CowEvents.FirstOrDefault(ce =>
+                ce.Farm.UBN.Equals(dataRow["Farm"]) &&
+                ce.Reason.Equals(Enum.Parse<Reason>(dataRow["Reason"])) &&
+                ce.Order.Equals(int.Parse(dataRow["Order"])) && 
+                ce.EventDate.Equals(DateOnly.Parse(dataRow["Date"])) &&
+                ce.Category.Equals(int.Parse(dataRow["Category"])));
+            
+            Assert.True(cowEvent != null,
+                $"Cow Event not found: {dataRow["Farm"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
+        }
+    }
+
+
+    [Then(@"the cow should have a date of death of '(.*)'")]
+    public void ThenTheCowShouldHaveADateOfDeathOf(string dateOfDeath)
+    {
+        Assert.True(_cow!.DateOfDeath.HasValue, "Date of death is not filled.");
+        Assert.True(_cow!.DateOfDeath.Value.Equals(DateOnly.Parse(dateOfDeath)), "Date of death is incorrect.");
+    }
+
+    [Then(@"the end date on the latest location should be set to '(.*)'")]
+    public void ThenTheEndDateOnTheLatestLocationShouldBeSetTo(string dateOfDeath)
+    {
+        Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.HasValue, "The end date of the last location has not been filled.");
+        Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.Value.Equals(DateOnly.Parse(dateOfDeath)), "End date is incorrect.");
     }
 }

@@ -11,10 +11,10 @@ namespace CattleInformationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<DateTime>(
+            migrationBuilder.AddColumn<DateOnly>(
                 name: "DateFirstCalved",
                 table: "Cows",
-                type: "timestamp with time zone",
+                type: "date",
                 nullable: true);
         }
 

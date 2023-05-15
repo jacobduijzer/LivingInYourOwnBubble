@@ -51,7 +51,7 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                     UBN_1 = table.Column<string>(type: "text", nullable: false),
                     UBN_2 = table.Column<string>(type: "text", nullable: true),
                     Reason = table.Column<int>(type: "integer", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedOn = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {

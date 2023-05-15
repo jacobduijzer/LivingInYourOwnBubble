@@ -22,10 +22,5 @@ public class DatabaseContext : DbContext
             .HasMany(f => f.Cows)
             .WithMany(c => c.Farms)
             .UsingEntity<FarmCow>();
-
-        // modelBuilder.Entity<AnimalCategory>()
-        //     .HasNoKey()
-        //     .HasData(
-      
     }
 }

@@ -13,5 +13,5 @@ public class CowEvent
     public Reason Reason { get; set; }
     public int Category { get; set; }
     public int Order { get; set; }
-    public DateTime EventDate { get; set; }
+    public DateOnly EventDate { get; set; }
 }
