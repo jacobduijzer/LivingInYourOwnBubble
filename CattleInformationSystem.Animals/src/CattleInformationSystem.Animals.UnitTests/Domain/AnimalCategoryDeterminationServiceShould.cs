@@ -1,5 +1,4 @@
 using CattleInformationSystem.Animals.Domain;
-using CattleInformationSystem.Animals.UnitTests.Stubs;
 
 namespace CattleInformationSystem.Animals.UnitTests.Domain;
 

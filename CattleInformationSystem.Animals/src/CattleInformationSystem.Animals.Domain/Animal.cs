@@ -4,7 +4,6 @@ namespace CattleInformationSystem.Animals.Domain;
 
 public class Animal : IAggregateRoot
 {
-    // public int Id { get; set; }
     public string LifeNumber { get; private set; }
     public Gender Gender { get; private set; }
     public DateOnly DateOfBirth { get; private set; }

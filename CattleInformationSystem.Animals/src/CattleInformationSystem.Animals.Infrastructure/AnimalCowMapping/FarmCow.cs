@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Animals.Infrastructure.AnimalCowMapping;
 

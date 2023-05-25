@@ -17,7 +17,7 @@ public class AnimalCategorySeeder
         if (_databaseContext.AnimalCategories.Any())
             return;
         
-        _databaseContext.AnimalCategories.AddRange( 
+        await _databaseContext.AnimalCategories.AddRangeAsync( 
             new List<AnimalCategory>
             {
                 new AnimalCategory

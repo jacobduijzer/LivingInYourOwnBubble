@@ -80,14 +80,14 @@ namespace CattleInformationSystem.Animals.Specs
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="A newborn female on a milk farm")]
+        [Xunit.SkippableFactAttribute(DisplayName="A newborn female on a milk breeding farm")]
         [Xunit.TraitAttribute("FeatureTitle", "Animal Events")]
-        [Xunit.TraitAttribute("Description", "A newborn female on a milk farm")]
-        public void ANewbornFemaleOnAMilkFarm()
+        [Xunit.TraitAttribute("Description", "A newborn female on a milk breeding farm")]
+        public void ANewbornFemaleOnAMilkBreedingFarm()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A newborn female on a milk farm", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A newborn female on a milk breeding farm", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 4
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -274,15 +274,16 @@ namespace CattleInformationSystem.Animals.Specs
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="The full history of a female cow")]
+        [Xunit.SkippableFactAttribute(DisplayName="The full history of a female cow", Skip="Ignored")]
         [Xunit.TraitAttribute("FeatureTitle", "Animal Events")]
         [Xunit.TraitAttribute("Description", "The full history of a female cow")]
         public void TheFullHistoryOfAFemaleCow()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The full history of a female cow", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 34
+#line 35
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -317,37 +318,37 @@ namespace CattleInformationSystem.Animals.Specs
                             "Female",
                             "2017-03-23",
                             "Arrival",
-                            "20000000002",
+                            "20000000005",
                             "",
                             "2017-06-24"});
                 table5.AddRow(new string[] {
                             "Female",
                             "2017-03-23",
                             "Departure",
-                            "20000000002",
-                            "20000000003",
+                            "20000000005",
+                            "20000000006",
                             "2019-04-02"});
                 table5.AddRow(new string[] {
                             "Female",
                             "2017-03-23",
                             "Arrival",
-                            "20000000002",
-                            "20000000003",
+                            "20000000006",
+                            "20000000009",
                             "2019-04-02"});
                 table5.AddRow(new string[] {
                             "Female",
                             "2017-03-23",
                             "Death",
-                            "20000000003",
+                            "20000000009",
                             "",
                             "2019-04-02"});
-#line 35
+#line 36
         testRunner.Given("the following event(s)", ((string)(null)), table5, "Given ");
 #line hidden
-#line 43
+#line 44
         testRunner.When("added to the queue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 44
+#line 45
         testRunner.Then("it will be processed and added to the legacy database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

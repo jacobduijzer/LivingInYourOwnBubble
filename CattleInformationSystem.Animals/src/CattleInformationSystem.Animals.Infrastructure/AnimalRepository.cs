@@ -24,8 +24,7 @@ public class AnimalRepository : IAnimalRepository
 
         var farms = await _farms.ByFarmIds(CreateFarmIdList(cow));
 
-        var animal = Animal.CreateExisting(cow.LifeNumber, cow.Gender, cow.DateOfBirth, cow.DateFirstCalved ?? null,
-            cow.DateOfDeath ?? null);
+        var animal = Animal.CreateExisting(cow.LifeNumber, cow.Gender, cow.DateOfBirth, cow.DateFirstCalved ?? null, cow.DateOfDeath ?? null);
 
         foreach (var ce in cow.CowEvents)
             animal.AddAnimalEvent(farms.Single(f => f.Id.Equals(ce.FarmId)).UBN, ce.Reason, ce.EventDate, ce.Category);

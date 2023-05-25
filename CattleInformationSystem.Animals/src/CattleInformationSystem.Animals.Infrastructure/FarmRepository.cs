@@ -7,10 +7,8 @@ public class FarmRepository : IFarmRepository
 {
     private readonly DatabaseContext _databaseContext;
 
-    public FarmRepository(DatabaseContext databaseContext)
-    {
+    public FarmRepository(DatabaseContext databaseContext) => 
         _databaseContext = databaseContext;
-    }
     
     public async Task<IReadOnlyCollection<Farm>> ByUbns(string?[] ubns) =>
         await _databaseContext.Farms

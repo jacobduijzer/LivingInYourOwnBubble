@@ -1,5 +1,4 @@
 using CattleInformationSystem.Animals.Application;
-using CattleInformationSystem.SharedKernel;
 using CattleInformationSystem.SharedKernel.Contracts;
 using MassTransit;
 

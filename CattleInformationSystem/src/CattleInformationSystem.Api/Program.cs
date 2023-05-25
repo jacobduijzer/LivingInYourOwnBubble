@@ -34,6 +34,7 @@ await using (var scope = app.Services.CreateAsyncScope())
     dbContext.Database.EnsureDeleted();
     dbContext.Database.Migrate();
     await new AnimalCategorySeeder(dbContext).Seed();
+    await new FarmSeeder(dbContext).Seed();
 }
 
 app.UseSwagger();

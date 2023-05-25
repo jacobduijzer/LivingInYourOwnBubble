@@ -1,4 +1,3 @@
-using CattleInformationSystem.Animals.Domain;
 using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Animals.Infrastructure.AnimalCowMapping;

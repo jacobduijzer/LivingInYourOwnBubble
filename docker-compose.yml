@@ -7,7 +7,7 @@ services:
     ports:
       - 80:5000
     build:
-      context: ./CattleInformationSystem
+      context: .
       dockerfile: Dockerfile.web
     environment:
       ASPNETCORE_URLS: http://+:5000
@@ -26,10 +26,26 @@ services:
     ports:
       - 8050:5000
     build:
-      context: ./CattleInformationSystem
+      context: .
       dockerfile: Dockerfile.api
     environment:
       ASPNETCORE_URLS: http://+:5000
+      DatabaseSettings:Username: &db-user postgres
+      DatabaseSettings:Password: &db-password postgres
+      DatabaseSettings:Host: cis.db
+      DatabaseSettings:Database: &db-name CattleInformationDatabase
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+    depends_on:
+      - cis.db
+    restart: always
+      
+  cis.worker:
+    image: cis-worker
+    container_name: cis.worker
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
       DatabaseSettings:Username: &db-user postgres
       DatabaseSettings:Password: &db-password postgres
       DatabaseSettings:Host: cis.db
