@@ -1,3 +1,4 @@
+using CattleInformationSystem.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
 namespace CattleInformationSystem.Domain;

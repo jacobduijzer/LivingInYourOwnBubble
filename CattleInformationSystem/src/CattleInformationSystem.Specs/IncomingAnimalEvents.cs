@@ -1,4 +1,5 @@
 using CattleInformationSystem.Domain;
+using CattleInformationSystem.SharedKernel;
 using Microsoft.Extensions.DependencyInjection;
 using TechTalk.SpecFlow;
 

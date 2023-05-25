@@ -1,0 +1,18 @@
+@startmindmap
+scale 1920 width
++[#Red] **Problems**
+++[#orange] Legacy Software
++++[#FFBBCC] Stored Procedures
++++[#FFBBCC] Database Functions
++++[#FFBBCC] No (unit) Tests
+++[#Orange] Domain Experts
++++[#FFBBCC] Moved on
++++[#FFBBCC] No documentation
++++[#FFBBCC] Complicated Domain
+--[#Orange] Nightly processing
+---[#FFBBCC] Not ready before 7:30am
+---[#FFBBCC] No realtime processing
+--[#Orange] New law in 3 months
+---[#FFBBCC] New feature to determine\nfarm categories
+---[#FFBBCC] Needs reprocessing of animals on demand
+@endmindmap

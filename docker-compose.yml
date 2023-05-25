@@ -62,5 +62,23 @@ services:
       PGADMIN_DEFAULT_PASSWORD: postgres
       PGADMIN_CONFIG_SERVER_MODE: 'True'
     
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: cis.queue
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "3001:80"
+      - "5341:5341"
+
 volumes:
   cattleinformationsystem_db_data:
+  rabbitmq:

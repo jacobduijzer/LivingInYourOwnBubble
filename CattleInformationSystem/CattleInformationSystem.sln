@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Specs", "src\CattleInformationSystem.Specs\CattleInformationSystem.Specs.csproj", "{8BD109BE-A97D-47F8-AA1A-FB10443CD97B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.SharedKernel", "..\CattleInformationSystem.SharedKernel\CattleInformationSystem.SharedKernel.csproj", "{97A53B51-5060-494B-B637-E4FE95A1F5BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,5 +64,9 @@ Global
 		{8BD109BE-A97D-47F8-AA1A-FB10443CD97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BD109BE-A97D-47F8-AA1A-FB10443CD97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BD109BE-A97D-47F8-AA1A-FB10443CD97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A53B51-5060-494B-B637-E4FE95A1F5BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A53B51-5060-494B-B637-E4FE95A1F5BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A53B51-5060-494B-B637-E4FE95A1F5BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A53B51-5060-494B-B637-E4FE95A1F5BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

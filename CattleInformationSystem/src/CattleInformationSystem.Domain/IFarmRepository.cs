@@ -1,3 +1,5 @@
+using CattleInformationSystem.SharedKernel;
+
 namespace CattleInformationSystem.Domain;
 
 public interface IFarmRepository

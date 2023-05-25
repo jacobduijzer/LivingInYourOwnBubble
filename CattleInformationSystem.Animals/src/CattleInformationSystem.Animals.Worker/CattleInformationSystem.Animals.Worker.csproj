@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-CattleInformationSystem.Animals.Worker-218573C7-F14F-4586-B8D9-DD91412F7D21</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.15" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+        <PackageReference Include="Seq.Extensions.Logging" Version="6.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\CattleInformationSystem.SharedKernel\CattleInformationSystem.SharedKernel.csproj" />
+      <ProjectReference Include="..\CattleInformationSystem.Animals.Application\CattleInformationSystem.Animals.Application.csproj" />
+      <ProjectReference Include="..\CattleInformationSystem.Animals.Domain\CattleInformationSystem.Animals.Domain.csproj" />
+      <ProjectReference Include="..\CattleInformationSystem.Animals.Infrastructure\CattleInformationSystem.Animals.Infrastructure.csproj" />
+    </ItemGroup>
+</Project>

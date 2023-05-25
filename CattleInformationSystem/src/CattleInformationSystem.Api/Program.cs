@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using CattleInformationSystem.Application;
 using CattleInformationSystem.Domain;
 using CattleInformationSystem.Infrastructure;
+using CattleInformationSystem.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 

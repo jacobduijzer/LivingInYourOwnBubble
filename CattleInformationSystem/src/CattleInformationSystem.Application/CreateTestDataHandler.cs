@@ -1,5 +1,6 @@
 using CattleInformationSystem.Application.Transitions;
 using CattleInformationSystem.Domain;
+using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Application;
 

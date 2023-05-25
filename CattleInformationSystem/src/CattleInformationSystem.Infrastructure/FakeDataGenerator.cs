@@ -1,5 +1,6 @@
 using Bogus;
 using CattleInformationSystem.Domain;
+using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Infrastructure;
 
