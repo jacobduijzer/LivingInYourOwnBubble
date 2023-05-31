@@ -1,0 +1,39 @@
+@startuml
+
+:New record in **"IncomingCowEvents"** table;
+:Select Current Farm Details;
+switch(Reason)
+case(<color:Black><size:16> **Birth**)
+    :Create **cow** record;
+    :Link **cow** to **farm**;
+    :Determine **category**;
+    :Create **cow event** record;
+
+case (<color:Blue><size:16> **Departure & Arrival**)
+    :Get **cow** details;
+    :Get last known **category**;
+    :Set **end date** of current location;
+    :Get **destination farm** details;
+    :Link **cow** to **destination farm**;
+    :Determine **category** for destination farm;
+    :Determine **order** for new **cow event**;
+    :Create **departure event** with **last category**;
+    :Create **arrival event** with **new category**;
+
+case (<color:Green><size:16> **Calved**)
+    :Get **cow** details;
+    :Set **first date calved** of **cow**;
+    :Determine **category**;
+    :Determine **order** for new **cow event**;
+    :Create **calved event** with **new category**;
+
+case (<color:Purple><size:16> **Death**)
+    :Get **cow** details;
+    :Set **date of death** of **cow**;
+    :Get last known **category**;
+    :Determine **order** for new **cow event**;
+    :Create **death event** with **last category**;
+endswitch
+:Delete record from **"IncomingCowEvents"**;
+:Finished processing animal event;
+@enduml

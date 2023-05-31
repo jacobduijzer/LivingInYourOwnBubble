@@ -43,7 +43,6 @@ public class Animal : IAggregateRoot
 
     public void AddAnimalEvent(string ubn, Reason reason, DateOnly eventDate, int category)
     {
-        // TODO: category, order
         AnimalEvents.Add(new(ubn, reason, eventDate, category, GetNextOrder(eventDate)));
     }
 

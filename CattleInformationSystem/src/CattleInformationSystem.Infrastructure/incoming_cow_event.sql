@@ -94,12 +94,18 @@ BEGIN
             FROM "CowEvents"
             WHERE "FarmId" = from_farm_id
               AND "CowId" = cow_id
+              AND "EventDate" = NEW."EventDate"::DATE
             ORDER BY "Order" DESC
             LIMIT 1;
+            IF last_order IS NULL THEN
+               last_order := 0; 
+            ELSE 
+                last_order = last_order + 1;
+            END IF;
 
             -- CREATE DEPARTURE 
             INSERT INTO "CowEvents" ("FarmId", "CowId", "Reason", "Category", "EventDate", "Order")
-            VALUES (from_farm_id, cow_id, NEW."Reason", last_known_animal_category, NEW."EventDate", last_order + 1);
+            VALUES (from_farm_id, cow_id, NEW."Reason", last_known_animal_category, NEW."EventDate", last_order);
 
             -- CREATE ARRIVAL
             INSERT INTO "CowEvents" ("FarmId", "CowId", "Reason", "Category", "EventDate", "Order")
@@ -108,6 +114,7 @@ BEGIN
 
         -- CALVED
         WHEN NEW."Reason" = 3 THEN BEGIN
+            -- GET COW DETAILS
             SELECT "Id", "DateOfBirth" INTO cow_id, date_of_birth FROM "Cows" WHERE "LifeNumber" = NEW."LifeNumber";
             IF cow_id IS NULL THEN
                 RAISE EXCEPTION 'Cow with LifeNumber % not found', NEW."LifeNumber";
@@ -130,16 +137,23 @@ BEGIN
             FROM "CowEvents"
             WHERE "FarmId" = from_farm_id
               AND "CowId" = cow_id
+              AND "EventDate" = NEW."EventDate"::DATE
             ORDER BY "Order" DESC
             LIMIT 1;
+            IF last_order IS NULL THEN
+                last_order := 0;
+            ELSE
+                last_order = last_order + 1;
+            END IF;
 
             -- CREATE BIRTH
             INSERT INTO "CowEvents" ("FarmId", "CowId", "Reason", "Category", "EventDate", "Order")
-            VALUES (from_farm_id, cow_id, NEW."Reason", target_animal_category, NEW."EventDate", last_order + 1);
+            VALUES (from_farm_id, cow_id, NEW."Reason", target_animal_category, NEW."EventDate", last_order);
         END;
 
         -- DEATH EVENT
         WHEN NEW."Reason" = 4 THEN BEGIN
+            -- GET COW DETAILS
             SELECT "Id" INTO cow_id FROM "Cows" WHERE "LifeNumber" = NEW."LifeNumber";
             IF cow_id IS NULL THEN
                 RAISE EXCEPTION 'Cow with LifeNumber % not found', NEW."LifeNumber";
@@ -171,12 +185,18 @@ BEGIN
             FROM "CowEvents"
             WHERE "FarmId" = from_farm_id
               AND "CowId" = cow_id
+              AND "EventDate" = NEW."EventDate"::DATE
             ORDER BY "Order" DESC
             LIMIT 1;
+            IF last_order IS NULL THEN
+                last_order := 0;
+            ELSE
+                last_order = last_order + 1;
+            END IF;
 
             -- CREATE DEATH EVENT
             INSERT INTO "CowEvents" ("FarmId", "CowId", "Reason", "Category", "EventDate", "Order")
-            VALUES (from_farm_id, cow_id, NEW."Reason", last_known_animal_category, NEW."EventDate", last_order + 1);
+            VALUES (from_farm_id, cow_id, NEW."Reason", last_known_animal_category, NEW."EventDate", last_order);
         END;
         ELSE RAISE EXCEPTION 'This reason is not implemented: %', NEW."Reason";
     END CASE;
