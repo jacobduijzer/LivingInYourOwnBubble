@@ -9,15 +9,15 @@ public class AnimalCategoryDeterminationService
     public AnimalCategoryDeterminationService(IReadOnlyCollection<AnimalCategory> categories) =>
         _categories = categories;
 
-    public int DeterminateCurrent(Animal animal, FarmType farmType, DateOnly atDate)
+    public int DeterminateCurrent(Animal animal, FarmType farmType, DateOnly eventDate)
     {
         var category = _categories.Where(cat =>
                 cat.Gender.Equals(animal.Gender) &&
                 cat.Calved.Equals(animal.DateFirstCalved.HasValue) &&
                 cat.FarmType.Equals(farmType) &&
-                cat.AgeInDays <= animal.AgeInDays(atDate))
+                cat.AgeInDays <= animal.AgeInDays(eventDate))
             .MaxBy(cat => cat.AgeInDays);
-
+        
         return category?.Category ?? 0;
     }
 }
