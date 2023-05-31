@@ -28,6 +28,9 @@ This application is a worker, with a subscription on a RabbitMq topic. There are
 
 A few models are shared with between the legacy application and the bubble context.
 
+## Sources
+
+* [GETTING STARTED WITH DDD WHEN SURROUNDED BY LEGACY SYSTEMS - By Eric Evans](https://www.domainlanguage.com/wp-content/uploads/2016/04/GettingStartedWithDDDWhenSurroundedByLegacySystemsV1.pdf)
 
 
 
