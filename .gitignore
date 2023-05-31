@@ -351,3 +351,6 @@ MigrationBackup/
 
 # JetBrains
 .idea/
+
+# SpecFlow
+livingdoc.html

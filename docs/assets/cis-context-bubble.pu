@@ -1,0 +1,86 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+' settings & styling
+scale 1920 width
+scale 1200 height
+skinparam titleFontSize 32
+skinparam NoteBorderColor lightgray
+skinparam NoteBackgroundColor lightgray
+skinparam NoteFontSize 24
+skinparam NoteFontColor black
+
+title Cattle Information System with Bubble Contexts - Context Diagram
+
+' variables
+!$farm_animal_info = "Updates on farm and animal information."
+
+AddBoundaryTag("animal_bubble", $bgColor="#daffcc", $fontColor="black", $borderColor="white", $shadowing="true", $shape = RoundedBoxShape(), $type="Bubble Context")
+AddBoundaryTag("farm_bubble", $bgColor="#faafaa", $fontColor="black", $borderColor="white", $shadowing="true", $shape = RoundedBoxShape(), $type="Bubble Context")
+
+Person(farmer, "Farmer", "Manages all farm and animal data.")
+Person(accountant, "Accountant", "Does the farm and agricultural accounting for farmers.")
+Lay_L(farmer, accountant)
+
+System_Ext(fms, "Farm Management System")
+System_Ext(ienr, "Identification & Registration", $sprite="img:rvo.png")
+
+Enterprise_Boundary(cis, "Cattle Information System") {
+	System(cis_ienr, "Identification & Registration", "Local, enriched copy with all farm- and animalinformation needed.")
+	SystemDb(db, "Database", "Farm- and animal data.")
+	System(agrival, "AgriValuate", "Application for farm accounting.")
+
+	System(worker, "Worker", "")
+	SystemQueue(queue, "Queue", "")
+
+	System_Boundary(bb_animal, "Animal Bubble Boundary", $tags="animal_bubble") {
+	    System(acl_cow, "Animal Anti Corruption Layer")
+	    System(bubble_animals, "Animals Bubble Context")
+
+	    ' worker
+	    Rel(ienr, worker, $farm_animal_info)
+	    Rel_D(worker, queue, "Uses")
+
+	    ' cow
+	    Rel_L(acl_cow, db, "Uses")
+	    Rel_L(bubble_animals, acl_cow, "Uses")
+	    Rel(queue, bubble_animals, "Uses")
+	    Lay_D(db, acl_cow)
+	}
+	System_Boundary(bb_farm, "Farm Bubble Boundary", $tags="farm_bubble") {
+	    System(acl_farm, "Farm Anti Corruption Layer")
+	    System(bubble_farms, "Farms Bubble Context")
+
+	    ' farm
+	    Rel(acl_farm, db, "Uses")
+	    Rel_L(bubble_farms, acl_farm, "Uses")
+	    Rel(queue, bubble_farms, "Uses")
+	    Lay_D(db, acl_farm)
+	}
+
+	Rel(accountant, cis_ienr, "Authorizations")
+	Rel_D(cis_ienr, db, "Uses")
+	Rel_R(agrival, cis_ienr, "Uses")
+	Rel(accountant, agrival, "Uses")
+			Lay_L(bb_animal, bb_farm)
+			Lay_L(worker, db)
+
+
+}
+
+Lay_L(ienr, cis_ienr)
+
+Rel_D(farmer, fms, $farm_animal_info)
+Rel_D(fms, ienr, $farm_animal_info)
+Rel_R(ienr, cis_ienr, $farm_animal_info)
+
+note as bubble_context
+	|= Main characteristics of the bubble context strategy |
+	| - Modest commitment to DDD |
+	| - No synchronization risk (uses legacy database) |
+	| - Works when there is a limited range of data needed from legacy |
+end note
+
+'Lay_D(bb, bubble_context)
+
+@enduml

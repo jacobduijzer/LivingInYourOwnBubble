@@ -1,0 +1,94 @@
+@page
+@using CattleInformationSystem.SharedKernel
+@model CattleInformationSystem.Web.Pages.CowDetails
+
+@{
+    ViewData["Title"] = "Cow Details";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.CowData != null)
+{
+    <table class="table">
+        <tbody>
+        <tr>
+            <td>Lifenumber</td>
+            <td>@Model.CowData.LifeNumber</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>@Model.CowData.Gender</td>
+        </tr>
+        <tr>
+            <td>Date Of Birth</td>
+            <td>@DateFormatter.Format(Model.CowData.DateOfBirth)</td>
+        </tr>
+        @if (Model.CowData.Gender == Gender.Female)
+        {
+            <tr>
+                <td>Date First Calved</td>
+                <td>@DateFormatter.Format(Model.CowData.DateFirstCalved)</td>
+            </tr>
+        }
+        <tr>
+            <td>Date Of Death</td>
+            <td>@DateFormatter.Format(Model.CowData.DateOfDeath)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Cow History</h2>
+
+    @foreach (var (farmCow, index) in Model.CowData.FarmCows.WithIndex())
+    {
+        <table class="table border-dark border-top border-5">
+            <thead>
+            <tr class="table-primary">
+                <th scope="col">#</th>
+                <th scope="col">UBN</th>
+                <th scope="col">Farm Type</th>
+                <th scope="col">Date Of Arrival</th>
+                <th scope="col">Date Of Departure</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-secondary">
+                <th scope="row">@(index + 1)</th>
+                <td>@farmCow.Farm.UBN</td>
+                <td>@farmCow.Farm.FarmType</td>
+                <td>@DateFormatter.Format(farmCow.StartDate)</td>
+                <td>@DateFormatter.Format(farmCow.EndDate)</td>
+            </tr>
+            @if (Model.CowData.CowEvents != null && Model.CowData.CowEvents.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th colspan="5">Events</th> 
+                    </tr>
+                    <tr class="table-success">
+                        <th scope="col">#</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Order</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var (cowEvent, eventsIndex) in Model.CowData.CowEvents.Where(ce => ce.FarmId == farmCow.FarmId).WithIndex())
+                    {
+                        <tr class="table-secondary">
+                            <th scope="row">@(eventsIndex + 1)</th>
+                            <td>@cowEvent.Reason</td>
+                            <td>@cowEvent.Category</td>
+                            <td>@cowEvent.Order</td>
+                            <td>@DateFormatter.Format(cowEvent.EventDate)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            </tbody>
+        </table>
+    }
+}

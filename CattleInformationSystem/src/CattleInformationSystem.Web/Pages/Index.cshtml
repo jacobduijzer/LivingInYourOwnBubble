@@ -1,0 +1,34 @@
+﻿@page
+@using CattleInformationSystem.Application
+@model IndexModel
+@{
+    ViewData["Title"] = "Farms";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.FarmsData.Any())
+{
+    var farmCount = 0;
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">UBN</th>
+            <th scope="col">Farm Type</th>
+            <th scope="col">Cows</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var farm in Model.FarmsData)
+        {
+            <tr>
+                <th scope="row">@(++farmCount)</th>
+                <td><a class="nav-link text-dark" asp-area="" asp-page="/FarmDetails" asp-route-farmId="@farm.Id">@farm.UBN</a></td>
+                <td>@farm.FarmType</td>
+                <td>@(farm.Cows != null ? farm.Cows.Count() : 0 )</td>
+                
+            </tr>
+        }
+        </tbody>
+    </table>
+}

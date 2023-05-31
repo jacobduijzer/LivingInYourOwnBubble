@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+' settings & styling
+skinparam titleFontSize 32
+
+title Cattle Information System - Context Diagram
+
+' variables
+!$farm_animal_info = "Farm & cattle information."
+
+
+Person(farmer, "Farmer", "Manages all farm and animal data.")
+Person(accountant, "Accountant", "Does the farm and agricultural accounting for farmers.")
+Lay_L(farmer, accountant)
+
+Enterprise_Boundary(cis, "Cattle Information System") {
+	System(cis_ienr, "Identification & Registration", "Local, enriched copy with all farm- and animalinformation needed.")
+	SystemDb(db, "Database", "Farm- and animal data.")
+	System(agrival, "AgriValuate", "Application for farm accounting.")
+
+	Rel(accountant, cis_ienr, "Authorizations")
+	Rel(cis_ienr, db, $farm_animal_info)
+	Rel_L(cis_ienr, agrival, "Aggregated farm & cattle information")
+	Rel(accountant, agrival, "Uses")
+}
+
+System_Ext(fms, "Farm Management System")
+System_Ext(ienr, "Identification & Registration", $sprite="img:rvo.png")
+
+Rel_D(farmer, fms, $farm_animal_info)
+Rel_D(fms, ienr, $farm_animal_info)
+Rel_R(ienr, cis_ienr, $farm_animal_info)
+
+@enduml
