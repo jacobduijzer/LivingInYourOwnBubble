@@ -353,4 +353,4 @@ MigrationBackup/
 .idea/
 
 # SpecFlow
-livingdoc.html
+livingdoc*.html

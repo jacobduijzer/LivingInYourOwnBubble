@@ -9,6 +9,6 @@ dotnet test CattleInformationSystem/CattleInformationSystem.sln
   feature-folder CattleInformationSystem/src/CattleInformationSystem.Specs \
   -t CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net7.0/TestExecution.json \
   --binding-assemblies CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net7.0/CattleInformationSystem.Specs.dll \
-  --output livingdoc.html
+  --output livingdoc_legacy.html
 
-/usr/bin/firefox livingdoc.html
+echo "Generated the report 'livingdoc_legacy.html'."

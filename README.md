@@ -16,9 +16,13 @@ The web application will be accessible on 'http://localhost' (if all goes well).
 
 This application is created to help with rebuilding a legacy system. It makes sure the database functions are created and it can be used to execute specifications (SpecFlow), which are test scenario's. They can also be used to demonstrate the working of the processing of animal events with the database functions.
 
+![Legacy Specifications](docs/assets/legacy-specs.png)
+
 ## Cattle Information System - Animals
 
 This application is a worker, with a subscription on a RabbitMq topic. There are also some specifications (SpecFlow), which can be used as input and test scenario's.
+
+![Animal Bubble Specifications](docs/assets/animal-bubble-specs.png)
 
 ## Cattle Information System - Shared Kernel
 
