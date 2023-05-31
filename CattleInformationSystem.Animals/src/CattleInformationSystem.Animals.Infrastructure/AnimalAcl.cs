@@ -23,13 +23,20 @@ public class AnimalAcl : IAnimalACL
 
         var farms = await _farms.ByFarmIds(CreateFarmIdList(cow));
 
-        var animal = Animal.CreateExisting(cow.LifeNumber, cow.Gender, cow.DateOfBirth, cow.DateFirstCalved ?? null, cow.DateOfDeath ?? null);
+        var animal = Animal.CreateExisting(cow.LifeNumber, cow.Gender, cow.DateOfBirth, cow.DateFirstCalved ?? null,
+            cow.DateOfDeath ?? null);
 
         foreach (var ce in cow.CowEvents)
-            animal.AddAnimalEvent(farms.Single(f => f.Id.Equals(ce.FarmId)).UBN, ce.Reason, ce.EventDate, ce.Category);
+        {
+            var farm = farms.Single(f => f.Id.Equals(ce.FarmId));
+            animal.AddAnimalEvent(farm.UBN, ce.Reason, ce.EventDate, ce.Category);
+        }
 
         foreach (var fc in cow.FarmCows)
-            animal.AddAnimalLocation(farms.Single(f => f.Id.Equals(f.Id)).UBN, fc.StartDate, fc.EndDate ?? null);
+        {
+            var farm = farms.Single(x => x.Id.Equals(fc.FarmId));
+            animal.AddAnimalLocation(farm.UBN, fc.StartDate, fc.EndDate ?? null);
+        }
 
         return animal;
     }
@@ -96,12 +103,12 @@ public class AnimalAcl : IAnimalACL
         foreach (var animalEvent in animal.AnimalEvents)
         {
             var farmId = farms.Single(farm => farm.UBN.Equals(animalEvent.Ubn)).Id;
-            if(!cow.CowEvents.Any(ce =>
-                ce.FarmId.Equals(farmId) &&
-                ce.Reason.Equals(animalEvent.Reason) &&
-                ce.EventDate.Equals(animalEvent.EventDate) &&
-                ce.Category.Equals(animalEvent.Category) &&
-                ce.Order.Equals(animalEvent.Order)))
+            if (!cow.CowEvents.Any(ce =>
+                    ce.FarmId.Equals(farmId) &&
+                    ce.Reason.Equals(animalEvent.Reason) &&
+                    ce.EventDate.Equals(animalEvent.EventDate) &&
+                    ce.Category.Equals(animalEvent.Category) &&
+                    ce.Order.Equals(animalEvent.Order)))
             {
                 cow.CowEvents.Add(new()
                 {

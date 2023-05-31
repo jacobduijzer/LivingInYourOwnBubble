@@ -18,10 +18,9 @@ public class DepartureHandler : IReasonHandler
         _farms = farms;
         _categoryDetermination = categoryDetermination;
     }
-    
+
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
         throw new NotImplementedException();
-
     }
 }

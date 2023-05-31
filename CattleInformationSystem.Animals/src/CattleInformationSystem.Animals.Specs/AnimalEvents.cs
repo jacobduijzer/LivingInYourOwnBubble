@@ -1,4 +1,5 @@
 using CattleInformationSystem.Animals.Domain;
+using CattleInformationSystem.SharedKernel;
 using CattleInformationSystem.SharedKernel.Contracts;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +16,13 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
     private IEnumerable<IncomingAnimalEventCreated> _incomingEvents;
     private string _lifeNumber;
     private readonly IAsyncPolicy _retryPolicy;
+    private Animal _animal;
 
     public AnimalEvents(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
-        
-        _retryPolicy  = Policy
+
+        _retryPolicy = Policy
             .Handle<Exception>()
             .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
     }
@@ -43,8 +45,11 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
         _lifeNumber = DateTime.Now.ToString("yyyyddMMhhmmssfff");
         await using var scope = _factory.Services.CreateAsyncScope();
         IBus bus = scope.ServiceProvider.GetRequiredService<IBus>();
-        foreach (var animalEvent in _incomingEvents)
-            await bus.Publish<IncomingAnimalEventCreated>(animalEvent with { LifeNumber = _lifeNumber });
+        foreach (var animalEvent in _incomingEvents.OrderBy(x => x.EventDate))
+        {
+            await bus.Publish<IncomingAnimalEventCreated>(animalEvent with {LifeNumber = _lifeNumber});
+            await Task.Delay(500);
+        }
     }
 
     [Then(@"it will be processed and added to the legacy database")]
@@ -53,10 +58,27 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
         await using var scope = _factory.Services.CreateAsyncScope();
         var animals = scope.ServiceProvider.GetRequiredService<IAnimalACL>();
 
-        var animal = await _retryPolicy.ExecuteAsync(async () => await animals.ByLifeNumber(_lifeNumber));
-        
-        Assert.NotNull(animal);
-        Assert.True(animal.LifeNumber.Equals(_lifeNumber));
-        Assert.True(animal.AnimalEvents.Count.Equals(_incomingEvents.Count()));
+        _animal = await _retryPolicy.ExecuteAsync(async () => await animals.ByLifeNumber(_lifeNumber));
+
+        Assert.NotNull(_animal);
+        Assert.True(_animal.LifeNumber.Equals(_lifeNumber));
+    }
+
+    [Then(@"have the events\(s\)")]
+    public void ThenHaveTheEventsS(Table table)
+    {
+        Assert.True(_animal.AnimalEvents.Count() == table.RowCount,
+            $"The number of animal events for animal '{_lifeNumber}' is not the same as the expected events. Expected: {table.RowCount}, found: {_animal.AnimalEvents.Count}");
+
+        foreach (var dataRow in table.Rows)
+        {
+            Assert.True(_animal.AnimalEvents.Count(ce =>
+                    ce.Ubn.Equals(dataRow["Farm"]) &&
+                    ce.Reason.Equals(Enum.Parse<Reason>(dataRow["Reason"])) &&
+                    ce.Order.Equals(int.Parse(dataRow["Order"])) &&
+                    ce.EventDate.Equals(DateOnly.Parse(dataRow["Date"])) &&
+                    ce.Category.Equals(int.Parse(dataRow["Category"]))) == 1,
+                $"Animal Event not found for animal '{_lifeNumber}': {dataRow["Farm"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
+        }
     }
 }

@@ -9,8 +9,8 @@ public class Animal : IAggregateRoot
     public DateOnly DateOfBirth { get; private set; }
     public DateOnly? DateFirstCalved { get; private set; }
     public DateOnly? DateOfDeath { get; private set; }
-    public List<AnimalLocation> AnimalLocations { get; } = new ();
-    public List<AnimalEvent> AnimalEvents { get; } = new ();
+    public List<AnimalLocation> AnimalLocations { get; } = new();
+    public List<AnimalEvent> AnimalEvents { get; } = new();
 
     public static Animal CreateNew(string lifenumber, Gender gender, DateOnly dateOfBirth) => new Animal
     {
@@ -35,7 +35,7 @@ public class Animal : IAggregateRoot
     {
         if (startDate < DateOfBirth)
             throw new Exception("The date of birth should be before or equal to the date of arrival.");
-        
+
         var animalLocation = new AnimalLocation(ubn, startDate);
         if (endDate.HasValue)
             animalLocation.SetEndDate(endDate.Value);
@@ -52,9 +52,9 @@ public class Animal : IAggregateRoot
     {
         DateOfDeath = eventDate;
 
-        AddAnimalEvent(ubn, Reason.Death, eventDate, GetLastCategory());
+        AddAnimalEvent(ubn, Reason.Death, eventDate, GetLastCategory(ubn));
 
-        SetEndDateForLastLocation(eventDate);
+        SetEndDateForLocation(ubn, eventDate);
     }
 
     private int GetNextOrder(string ubn, DateOnly eventDate)
@@ -68,19 +68,21 @@ public class Animal : IAggregateRoot
         return 0;
     }
 
-    private int GetLastCategory() =>
+    private int GetLastCategory(string ubn) =>
         AnimalEvents
+            .Where(ae => ae.Ubn.Equals(ubn))
             .OrderByDescending(ev => ev.EventDate)
             .ThenByDescending(ev => ev.Order)
             .First()
             .Category;
 
-    private void SetEndDateForLastLocation(DateOnly eventDate)
+    private void SetEndDateForLocation(string ubn, DateOnly eventDate)
     {
-        var animalLocation = AnimalLocations.MaxBy(loc => loc.StartDate);
+        var animalLocation = AnimalLocations.First(loc => 
+            loc.Ubn.Equals(ubn) && !loc.EndDate.HasValue);
         AnimalLocations.Remove(animalLocation);
 
         animalLocation.SetEndDate(eventDate);
-        AnimalLocations.Add(animalLocation); 
+        AnimalLocations.Add(animalLocation);
     }
 }
