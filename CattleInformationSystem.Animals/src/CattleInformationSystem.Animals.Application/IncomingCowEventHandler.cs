@@ -7,16 +7,16 @@ namespace CattleInformationSystem.Animals.Application;
 
 public class IncomingCowEventHandler
 {
-    private readonly IAnimalRepository _animals;
+    private readonly IAnimalACL _animals;
     private readonly IFarmRepository _farms;
     private readonly ICategoryRepository _categories;
 
     public IncomingCowEventHandler(
-        IAnimalRepository animalRepository,
+        IAnimalACL animalAcl,
         ICategoryRepository categoryRepository,
         IFarmRepository farms)
     {
-        _animals = animalRepository;
+        _animals = animalAcl;
         _categories = categoryRepository;
         _farms = farms;
     }

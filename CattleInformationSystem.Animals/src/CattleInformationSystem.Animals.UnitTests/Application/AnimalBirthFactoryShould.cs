@@ -18,14 +18,14 @@ public class AnimalBirthFactoryShould
         DateOnly.FromDateTime(DateTime.Now));
     
     [Fact]
-    public async Task CreateANewAnimal()
+    public async Task PerformABirthEvent()
     {
         // ARRANGE
         AnimalCategoryDeterminationService animalCategories = new(new List<AnimalCategory>());
-        AnimalBirthFactory factory = new(FarmRepositoryStub.Farms, animalCategories);
+        AnimalBirthFactory animalBirthFactory = new(FarmRepositoryStub.Farms, animalCategories);
 
         // ACT
-        var animal = factory.Create(_defaultEvent);
+        var animal = animalBirthFactory.PerformBirth(_defaultEvent);
         
         // ASSERT
         Assert.True(animal.LifeNumber.Equals("1000000001"));
@@ -38,7 +38,7 @@ public class AnimalBirthFactoryShould
         Assert.True(animal.AnimalLocations.Count.Equals(1));
         Assert.True(animal.AnimalLocations.First().Ubn.Equals(FarmRepositoryStub.Farms.First().UBN));
         Assert.True(animal.AnimalLocations.First().StartDate.Equals(DateOnly.FromDateTime(DateTime.Now)));
-        Assert.True(animal.AnimalLocations.First().EndDate.Equals(DateOnly.MinValue));
+        Assert.False(animal.AnimalLocations.First().EndDate.HasValue);
         
         Assert.NotEmpty(animal.AnimalEvents);
         Assert.True(animal.AnimalEvents.Count.Equals(1));

@@ -8,12 +8,12 @@ public class ReasonHandlerFactory
 {
     private readonly IReadOnlyCollection<AnimalCategory> _animalCategories;
     private readonly IReadOnlyCollection<Farm> _farms;
-    private readonly IAnimalRepository _animals;
+    private readonly IAnimalACL _animals;
 
     public ReasonHandlerFactory(
         IReadOnlyCollection<AnimalCategory> animalCategories,
         IReadOnlyCollection<Farm> farms,
-        IAnimalRepository animals)
+        IAnimalACL animals)
     {
         _animalCategories = animalCategories;
         _farms = farms;

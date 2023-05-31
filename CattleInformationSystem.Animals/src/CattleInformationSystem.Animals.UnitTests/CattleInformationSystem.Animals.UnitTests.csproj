@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Infrastructure\" />
+      <Folder Include="Application\Reasons\" />
     </ItemGroup>
 
     <ItemGroup>

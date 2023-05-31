@@ -5,11 +5,11 @@ namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class DeathHandler : IReasonHandler
 {
-    private readonly IAnimalRepository _animals;
+    private readonly IAnimalACL _animals;
     private readonly IReadOnlyCollection<Farm> _farms;
 
     public DeathHandler(
-        IAnimalRepository animals,
+        IAnimalACL animals,
         IReadOnlyCollection<Farm> farms)
     {
         _animals = animals;

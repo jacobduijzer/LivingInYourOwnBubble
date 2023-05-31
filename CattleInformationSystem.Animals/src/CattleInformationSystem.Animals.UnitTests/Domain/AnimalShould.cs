@@ -14,7 +14,7 @@ public class AnimalShould
         // ARRANGE
         AnimalCategoryDeterminationService animalCategories = new(await new CategoryRepositoryStub().All());
         var animal = new AnimalBirthFactory(FarmRepositoryStub.Farms, animalCategories)
-            .Create(new IncomingAnimalEventCreated("123456", Gender.Female, new DateOnly(2012, 1, 1), Reason.Birth,
+            .PerformBirth(new IncomingAnimalEventCreated("123456", Gender.Female, new DateOnly(2012, 1, 1), Reason.Birth,
                 "3000000001", null, new DateOnly(2012, 1, 1)));
 
         // ACT

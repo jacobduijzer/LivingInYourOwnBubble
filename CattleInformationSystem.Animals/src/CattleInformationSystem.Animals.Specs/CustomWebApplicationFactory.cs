@@ -1,4 +1,3 @@
-using System.Reflection;
 using CattleInformationSystem.Animals.Domain;
 using CattleInformationSystem.Animals.Infrastructure;
 using MassTransit;
@@ -29,7 +28,8 @@ public class CustomWebApplicationFactory<TProgram>
             // TODO: settings
             services
                 .AddDbContext<DatabaseContext>(options => options.UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=CattleInformationDatabase;Pooling=true;"))
-                .AddScoped<IAnimalRepository, AnimalRepository>()
+                .AddScoped<IAnimalACL, AnimalAcl>()
+                .AddScoped<ICowRepository, CowRepository>()
                 .AddScoped<IFarmRepository, FarmRepository>();
         });
     }

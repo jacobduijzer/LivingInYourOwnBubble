@@ -16,7 +16,7 @@ public class AnimalBirthFactory
         _categories = animalCategoryDeterminationService;
     }
 
-    public Animal Create(IncomingAnimalEventCreated incomingAnimalEventCreated)
+    public Animal PerformBirth(IncomingAnimalEventCreated incomingAnimalEventCreated)
     {
         var animal = Animal.CreateNew(incomingAnimalEventCreated.LifeNumber, incomingAnimalEventCreated.Gender, incomingAnimalEventCreated.DateOfBirth);
         

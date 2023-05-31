@@ -1,26 +1,25 @@
 using CattleInformationSystem.Animals.Domain;
 using CattleInformationSystem.Animals.Infrastructure.AnimalCowMapping;
-using Microsoft.EntityFrameworkCore;
 
 namespace CattleInformationSystem.Animals.Infrastructure;
 
-public class AnimalRepository : IAnimalRepository
+public class AnimalAcl : IAnimalACL
 {
     private readonly IFarmRepository _farms;
-    private readonly DatabaseContext _databaseContext;
+    private readonly ICowRepository _cows;
 
-    public AnimalRepository(
-        IFarmRepository farms,
-        DatabaseContext databaseContext)
+    public AnimalAcl(
+        ICowRepository cows,
+        IFarmRepository farms)
     {
+        _cows = cows;
         _farms = farms;
-        _databaseContext = databaseContext;
     }
 
     public async Task<Animal> ByLifeNumber(string lifeNumber)
     {
         // ACL => Map Cow to Animal, FarmCow to AnimalLocation, CowEvent to AnimalEvent
-        var cow = await CowByLifeNumber(lifeNumber);
+        var cow = await _cows.ByLifeNumber(lifeNumber);
 
         var farms = await _farms.ByFarmIds(CreateFarmIdList(cow));
 
@@ -62,8 +61,7 @@ public class AnimalRepository : IAnimalRepository
             }).ToList()
         };
 
-        await _databaseContext.Cows.AddAsync(cow);
-        await _databaseContext.SaveChangesAsync();
+        await _cows.Save(cow);
     }
 
     public async Task Update(Animal animal)
@@ -71,7 +69,7 @@ public class AnimalRepository : IAnimalRepository
         // ACL => Map Animal to Cow, AnimalLocation to FarmCow, AnimalEvent to CowEvent
         var farms = await _farms.ByUbns(CreateUbnList(animal));
 
-        var cow = await CowByLifeNumber(animal.LifeNumber);
+        var cow = await _cows.ByLifeNumber(animal.LifeNumber);
         cow.DateFirstCalved = animal.DateFirstCalved ?? null;
         cow.DateOfDeath = animal.DateOfDeath ?? null;
 
@@ -116,15 +114,8 @@ public class AnimalRepository : IAnimalRepository
             }
         }
 
-        _databaseContext.Cows.Update(cow);
-        await _databaseContext.SaveChangesAsync();
+        await _cows.Update(cow);
     }
-
-    private async Task<Cow> CowByLifeNumber(string lifeNumber) =>
-        await _databaseContext.Cows
-            .Include(cow => cow.FarmCows)
-            .Include(cow => cow.CowEvents)
-            .FirstAsync(c => c.LifeNumber.Equals(lifeNumber));
 
     private string[] CreateUbnList(Animal animal)
     {

@@ -5,21 +5,21 @@ namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class BirthHandler : IReasonHandler
 {
-    private readonly IAnimalRepository _animals;
-    private readonly AnimalBirthFactory _factory;
+    private readonly IAnimalACL _animalsACL;
+    private readonly AnimalBirthFactory _animalBirthFactory;
 
     public BirthHandler(
-        IAnimalRepository animals,
+        IAnimalACL animalsAcl,
         IReadOnlyCollection<Farm> farms, 
         AnimalCategoryDeterminationService categoryDetermination)
     {
-        _animals = animals;
-        _factory = new AnimalBirthFactory(farms, categoryDetermination);
+        _animalsACL = animalsAcl;
+        _animalBirthFactory = new AnimalBirthFactory(farms, categoryDetermination);
     }
     
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
-        var newAnimal = _factory.Create(incomingAnimalEvent);
-        await _animals.Save(newAnimal);
+        var newAnimal = _animalBirthFactory.PerformBirth(incomingAnimalEvent);
+        await _animalsACL.Save(newAnimal);
     }
 }

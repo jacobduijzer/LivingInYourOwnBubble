@@ -13,7 +13,8 @@ builder.Services
     .AddDbContext<DatabaseContext>(options => options.UseNpgsql(databaseConnection))
     .AddLogging(config => config.AddSeq())
     .AddScoped<IncomingCowEventHandler>()
-    .AddScoped<IAnimalRepository, AnimalRepository>()
+    .AddScoped<IAnimalACL, AnimalAcl>()
+    .AddScoped<ICowRepository, CowRepository>()
     .AddScoped<IFarmRepository, FarmRepository>()
     .AddScoped<ICategoryRepository, CategoryRepository>()
     .AddMassTransit(busConfig =>
@@ -33,6 +34,4 @@ builder.Services
 var host = builder.Build();
 host.Run();
 
-public partial class Program
-{
-}
+public partial class Program { }
