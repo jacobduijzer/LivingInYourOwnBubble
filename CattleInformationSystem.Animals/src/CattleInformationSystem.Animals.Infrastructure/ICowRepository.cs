@@ -8,5 +8,4 @@ public interface ICowRepository
 
     Task Save(Cow cow);
     Task Update(Cow cow);
-
 }

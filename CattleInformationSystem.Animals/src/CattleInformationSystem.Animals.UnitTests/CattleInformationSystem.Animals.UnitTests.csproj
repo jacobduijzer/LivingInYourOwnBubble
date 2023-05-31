@@ -23,10 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Reasons\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CattleInformationSystem.Animals.Worker\CattleInformationSystem.Animals.Worker.csproj" />
     </ItemGroup>
 
