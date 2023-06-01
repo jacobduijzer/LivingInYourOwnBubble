@@ -21,6 +21,14 @@ public class CalvedHandler : IReasonHandler
 
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
-        throw new NotImplementedException();
+        var currentFarm = _farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
+        var animal = await _animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
+        
+        animal.HandleFirstCalved(
+            currentFarm, 
+            incomingAnimalEvent.EventDate, 
+            _categoryDetermination);
+        
+        await _animals.Update(animal);
     }
 }

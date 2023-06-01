@@ -46,7 +46,13 @@ public class Animal : IAggregateRoot
     public void AddAnimalEvent(string ubn, Reason reason, DateOnly eventDate, int category) =>
         AnimalEvents.Add(new(ubn, reason, eventDate, category, GetNextOrder(ubn, eventDate)));
 
-    
+    public void HandleFirstCalved(Farm farm, DateOnly eventDate, AnimalCategoryDeterminationService categoryDeterminationService)
+    {
+        DateFirstCalved = eventDate;
+
+        var category = categoryDeterminationService.DeterminateCurrent(this, farm.FarmType, eventDate);
+        AddAnimalEvent(farm.UBN, Reason.Calved, eventDate, category);
+    }
 
     public void HandleDeath(string ubn, DateOnly eventDate)
     {
@@ -78,7 +84,7 @@ public class Animal : IAggregateRoot
 
     private void SetEndDateForLocation(string ubn, DateOnly eventDate)
     {
-        var animalLocation = AnimalLocations.First(loc => 
+        var animalLocation = AnimalLocations.First(loc =>
             loc.Ubn.Equals(ubn) && !loc.EndDate.HasValue);
         AnimalLocations.Remove(animalLocation);
 
