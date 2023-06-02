@@ -10,7 +10,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var incomingCowEventSql = File.ReadAllText("incoming_cow_event.sql");
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var incomingCowEventSql = File.ReadAllText(Path.Combine(path, "incoming_cow_event.sql"));
             migrationBuilder.Sql(incomingCowEventSql);
         }
 

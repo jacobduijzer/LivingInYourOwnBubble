@@ -1,0 +1,26 @@
+name: bubble
+services:
+- name: web
+  project: CattleInformationSystem/src/CattleInformationSystem.Web/CattleInformationSystem.Web.csproj 
+    #- name: api
+    #  project: CattleInformationSystem/src/CattleInformationSystem.Api/CattleInformationSystem.Api.csproj 
+- name: worker
+  project: CattleInformationSystem.Animals/src/CattleInformationSystem.Animals.Worker/CattleInformationSystem.Animals.Worker.csproj 
+- name: database
+  image:  postgres
+  env:
+  - name: POSTGRES_PASSWORD
+    value: "postgres"
+  bindings:
+  - port: 5432
+    connectionString: Server=${host};Port=${port};User Id=postgres;Password=${env:POSTGRES_PASSWORD};
+- name: rabbit
+  image: rabbitmq:3-management
+  bindings:
+    - name: ui
+      protocol: http
+      port: 15672
+      containerPort: 15672
+    - name: amqp
+      protocol: amqp
+      port: 5672

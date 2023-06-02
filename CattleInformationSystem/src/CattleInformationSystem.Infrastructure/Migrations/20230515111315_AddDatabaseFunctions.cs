@@ -10,7 +10,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var databaseFunctionsSql = File.ReadAllText("database_functions.sql");
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var databaseFunctionsSql = File.ReadAllText(Path.Combine(path, "database_functions.sql"));
             migrationBuilder.Sql(databaseFunctionsSql);
         }
 

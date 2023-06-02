@@ -10,7 +10,8 @@ namespace CattleInformationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var determineCategoryFunctionSql = File.ReadAllText("detemine_animal_category.sql");
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var determineCategoryFunctionSql = File.ReadAllText(Path.Combine(path, "detemine_animal_category.sql"));
             migrationBuilder.Sql(determineCategoryFunctionSql);
         }
 
