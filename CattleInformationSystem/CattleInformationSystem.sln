@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Api", "src\CattleInformationSystem.Api\CattleInformationSystem.Api.csproj", "{C0F4993C-A011-49C6-80DD-E432CA8E342F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Infrastructure", "src\CattleInformationSystem.Infrastructure\CattleInformationSystem.Infrastructure.csproj", "{2632043B-E661-4103-AFF7-8A524B3DF1E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.Application", "src\CattleInformationSystem.Application\CattleInformationSystem.Application.csproj", "{62ADAD84-AE71-4968-A405-825EBAF66CC0}"
@@ -33,10 +31,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0F4993C-A011-49C6-80DD-E432CA8E342F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2632043B-E661-4103-AFF7-8A524B3DF1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU

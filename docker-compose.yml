@@ -20,25 +20,6 @@ services:
       - cis.db
     restart: always
 
-  cis.api:
-    image: cis-api
-    container_name: cis.api
-    ports:
-      - 8050:5000
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    environment:
-      ASPNETCORE_URLS: http://+:5000
-      DatabaseSettings:Username: &db-user postgres
-      DatabaseSettings:Password: &db-password postgres
-      DatabaseSettings:Host: cis.db
-      DatabaseSettings:Database: &db-name CattleInformationDatabase
-      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
-    depends_on:
-      - cis.db
-    restart: always
-      
   cis.worker:
     image: cis-worker
     container_name: cis.worker

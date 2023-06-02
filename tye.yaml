@@ -1,9 +1,12 @@
 name: bubble
+dashboardPort: 7000
+extensions:
+- name: seq
 services:
 - name: web
   project: CattleInformationSystem/src/CattleInformationSystem.Web/CattleInformationSystem.Web.csproj 
-    #- name: api
-    #  project: CattleInformationSystem/src/CattleInformationSystem.Api/CattleInformationSystem.Api.csproj 
+  bindings:
+  - port: 8000
 - name: worker
   project: CattleInformationSystem.Animals/src/CattleInformationSystem.Animals.Worker/CattleInformationSystem.Animals.Worker.csproj 
 - name: database
@@ -14,6 +17,22 @@ services:
   bindings:
   - port: 5432
     connectionString: Server=${host};Port=${port};User Id=postgres;Password=${env:POSTGRES_PASSWORD};
+
+- name: database-admin
+  image: dpage/pgadmin4
+  bindings:
+    - name: ui
+      protocol: http
+      port: 8050
+      containerPort: 80
+  env:
+  - name: PGADMIN_DEFAULT_EMAIL
+    value: "jacob@duijzer.com"
+  - name: PGADMIN_DEFAULT_PASSWORD
+    value: "postgres"
+  - name: PGADMIN_CONFIG_SERVER_MODE
+    value: "False"
+
 - name: rabbit
   image: rabbitmq:3-management
   bindings:

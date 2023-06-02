@@ -25,9 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CattleInformationSystem.Api\CattleInformationSystem.Api.csproj" />
       <ProjectReference Include="..\CattleInformationSystem.Domain\CattleInformationSystem.Domain.csproj" />
       <ProjectReference Include="..\CattleInformationSystem.Infrastructure\CattleInformationSystem.Infrastructure.csproj" />
+      <ProjectReference Include="..\CattleInformationSystem.Web\CattleInformationSystem.Web.csproj" />
     </ItemGroup>
 
 </Project>

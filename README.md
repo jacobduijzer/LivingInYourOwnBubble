@@ -4,13 +4,24 @@ This is the demo application for my talk 'Living in Your Own Bubble - From Legac
 
 ![Architecture](docs/assets/cis-context-bubble.png)
 
-## Running the application
+## Running the application with Docker / docker compose
 Just run the command below to start the application. Make sure you have nothing running on port 80 or change the web port in the `docker-compose.yml` file.
 ```shell
 docker-compose up
 ```
 
 The web application will be accessible on 'http://localhost' (if all goes well).
+
+## Running the application with project Tye
+
+For those who do not know [Project Tye](https://github.com/dotnet/tye), from their GitHub repository: "Tye is a developer tool that makes developing, testing, and deploying microservices and distributed applications easier".
+If you have Tye installed, from the root of the project, run the following command:
+
+```shell
+tye run
+```
+
+Open the Tye dashboard to see all running services.
 
 ## Cattle Information System
 

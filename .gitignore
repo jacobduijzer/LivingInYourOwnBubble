@@ -354,3 +354,6 @@ MigrationBackup/
 
 # SpecFlow
 livingdoc*.html
+
+# Project Tye
+.tye/
