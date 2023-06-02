@@ -21,6 +21,8 @@ If you have Tye installed, from the root of the project, run the following comma
 tye run
 ```
 
+The web application will be accessible on 'http://localhost:8000'
+
 Open the Tye dashboard to see all running services.
 
 ## Cattle Information System
