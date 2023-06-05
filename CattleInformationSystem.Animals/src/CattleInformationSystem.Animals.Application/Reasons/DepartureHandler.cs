@@ -21,6 +21,13 @@ public class DepartureHandler : IReasonHandler
 
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
-        throw new NotImplementedException();
+        var currentFarm = _farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
+        var destinationFarm = _farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.TargetUbn));
+
+        var animal = await _animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
+        
+        animal.HandleDepartureAndArrivalEvent(currentFarm, destinationFarm, incomingAnimalEvent.EventDate, _categoryDetermination);
+
+        await _animals.Update(animal);
     }
 }

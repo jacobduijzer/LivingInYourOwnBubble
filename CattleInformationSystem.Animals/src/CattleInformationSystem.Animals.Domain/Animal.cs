@@ -91,4 +91,18 @@ public class Animal : IAggregateRoot
         animalLocation.SetEndDate(eventDate);
         AnimalLocations.Add(animalLocation);
     }
+
+    public async Task HandleDepartureAndArrivalEvent(Farm currentFarm, Farm destinationFarm, DateOnly eventDate, AnimalCategoryDeterminationService categoryDetermination)
+    {
+        SetEndDateForLocation(currentFarm.UBN, eventDate);
+        
+        var animalLocation = new AnimalLocation(destinationFarm.UBN, eventDate);
+        AnimalLocations.Add(animalLocation);
+
+        var lastCategory = GetLastCategory(currentFarm.UBN);
+        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory);
+
+        var newCategory = categoryDetermination.DeterminateCurrent(this, destinationFarm.FarmType, eventDate);
+        AddAnimalEvent(destinationFarm.UBN, Reason.Arrival, eventDate, newCategory);
+    }
 }

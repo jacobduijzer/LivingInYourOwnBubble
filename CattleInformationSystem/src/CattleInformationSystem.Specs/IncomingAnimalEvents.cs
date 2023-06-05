@@ -141,6 +141,24 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
                 $"Cow Event not found: {dataRow["Farm"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
         }
     }
+    
+    [Then(@"have the location\(s\)")]
+    public void ThenHaveTheLocationS(Table table)
+    {
+        Assert.True(_cow.FarmCows.Count() == table.RowCount,
+            "The amount of locations is not the same as the expected amount.");
+        
+        foreach (var dataRow in table.Rows)
+        {
+            var location = _cow.FarmCows.FirstOrDefault(fc =>
+                fc.Farm.UBN.Equals(dataRow["Farm"]) &&
+                fc.StartDate.Equals(DateOnly.Parse(dataRow["StartDate"])) &&
+                !string.IsNullOrEmpty(dataRow["EndDate"]) ? fc.EndDate.Value.Equals(DateOnly.Parse(dataRow["EndDate"])) : true);
+            
+            Assert.True(location != null,
+                $"Location not found: {dataRow["Farm"]} - {dataRow["StartDate"]} - {dataRow["EndDate"]}");
+        }
+    }
 
 
     [Then(@"the cow should have a date of death of '(.*)'")]
@@ -156,4 +174,6 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
         Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.HasValue, "The end date of the last location has not been filled.");
         Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.Value.Equals(DateOnly.Parse(dateOfDeath)), "End date is incorrect.");
     }
+
+    
 }

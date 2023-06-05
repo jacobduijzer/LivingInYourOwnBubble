@@ -8,6 +8,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IFarmRepository, FarmRepository>();
 builder.Services.AddScoped<ICowRepository, CowRepository>();
+builder.Services.AddScoped<IIncomingCowEventRepository, IncomingCowEventRepository>();
 builder.Services.AddScoped<AllFarmsHandler>();
 builder.Services.AddRazorPages();
 
