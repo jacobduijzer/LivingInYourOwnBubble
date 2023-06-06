@@ -2,230 +2,255 @@ Feature: Incoming Animal Events
 Animal events, coming from the Netherlands Enterprise Agency (RVO)
 should be processed and inserted or updated in the database.
 
-    Background: Creating a farm
-        Given a farm of type 'BreedingForMilk', with UBN '20000000001'
-        And a farm of type 'BreedingForMeat', with UBN '20000000002'
-        And a farm of type 'Milk', with UBN '20000000003'
-        And a farm of type 'Milk', with UBN '20000000004'
-        And a farm of type 'Milk', with UBN '20000000005'
-        And a farm of type 'Meat', with UBN '20000000006'
-
-    Scenario: Female, Being born
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000001 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
+    Scenario: A newborn female on a milk breeding farm
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason | CurrentUbn  | TargetUbn | EventDate  |
+          | Female | 2017-03-23  | Birth  | 20000000001 |           | 2017-03-23 |
         When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason | Order | Date       | Category |
+          | Ubn         | Reason | Order | Date       | Category |
           | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate |
+          | Ubn         | StartDate  | EndDate |
           | 20000000001 | 2017-03-23 |         |
 
-    Scenario: Female, sold and bought to a milk farm
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000002 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2017-03-25', from UBN '20000000001' to UBN '20000000003'
+    Scenario: A newborn female on a milk farm, dying the next day
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason | CurrentUbn  | TargetUbn | EventDate  |
+          | Female | 2017-03-23  | Birth  | 20000000001 |           | 2017-03-23 |
+          | Female | 2017-03-23  | Death  | 20000000001 |           | 2017-03-24 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
-          | 20000000001 | Departure | 0     | 2017-03-25 | 101      |
-          | 20000000003 | Arrival   | 0     | 2017-03-25 | 101      |
+          | Ubn         | Reason | Order | Date       | Category |
+          | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Death  | 0     | 2017-03-24 | 101      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000001 | 2017-03-23 | 2017-03-25 |
-          | 20000000003 | 2017-03-25 |            |
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2017-03-24 |
+        And the animal should have a date of death of '2017-03-24'
 
-    Scenario: Female, sold and bought to a meat farm
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000003 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2017-03-25', from UBN '20000000001' to UBN '20000000006'
+    Scenario: A newborn female on a milk farm, dying the same day
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason | CurrentUbn  | TargetUbn | EventDate  |
+          | Female | 2017-03-23  | Birth  | 20000000001 |           | 2017-03-23 |
+          | Female | 2017-03-23  | Death  | 20000000001 |           | 2017-03-23 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
-          | 20000000001 | Departure | 0     | 2017-03-25 | 101      |
-          | 20000000006 | Arrival   | 0     | 2017-03-25 | 101      |
+          | Ubn         | Reason | Order | Date       | Category |
+          | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Death  | 1     | 2017-03-23 | 101      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000001 | 2017-03-23 | 2017-03-25 |
-          | 20000000006 | 2017-03-25 |            |
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2017-03-23 |
+        And the animal should have a date of death of '2017-03-24'
 
-    Scenario: Female, sold and bought to 3 farms
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000004 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2017-03-25', from UBN '20000000001' to UBN '20000000003'
-        And it is moved on '2017-05-01', from UBN '20000000003' to UBN '20000000004'
-        And it is moved on '2017-08-27', from UBN '20000000004' to UBN '20000000005'
+    Scenario: A newborn female on a milk breeding farm, giving birth after 3 years
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason | CurrentUbn  | TargetUbn | EventDate  |
+          | Female | 2017-03-23  | Birth  | 20000000001 |           | 2017-03-23 |
+          | Female | 2017-03-23  | Calved | 20000000001 |           | 2020-02-20 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
-          | 20000000001 | Departure | 0     | 2017-03-25 | 101      |
-          | 20000000003 | Arrival   | 0     | 2017-03-25 | 101      |
-          | 20000000003 | Departure | 0     | 2017-05-01 | 101      |
-          | 20000000004 | Arrival   | 0     | 2017-05-01 | 101      |
-          | 20000000004 | Departure | 0     | 2017-08-27 | 101      |
-          | 20000000005 | Arrival   | 0     | 2017-08-27 | 101      |
+          | Ubn         | Reason | Order | Date       | Category |
+          | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Calved | 0     | 2020-02-20 | 100      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000001 | 2017-03-23 | 2017-03-25 |
-          | 20000000003 | 2017-03-25 | 2017-05-01 |
-          | 20000000004 | 2017-05-01 | 2017-08-27 |
-          | 20000000005 | 2017-08-27 |            |
+          | Ubn         | StartDate  | EndDate |
+          | 20000000001 | 2017-03-23 |         |
+        And the animal should have a date first calved of '2020-02-20'
 
-    Scenario: Female, sold and bought to 1 farm, then dying
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000005 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2017-03-25', from UBN '20000000001' to UBN '20000000003'
-        And it died on '2017-04-05' on UBN '20000000003'
+    Scenario: A newborn male on a milk farm, different event date
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason | CurrentUbn  | TargetUbn | EventDate  |
+          | Male   | 2017-03-23  | Birth  | 20000000001 |           | 2023-05-23 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
-          | 20000000001 | Departure | 0     | 2017-03-25 | 101      |
-          | 20000000003 | Arrival   | 0     | 2017-03-25 | 101      |
-          | 20000000003 | Death     | 0     | 2017-04-05 | 101      |
+          | Ubn         | Reason | Order | Date       | Category |
+          | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000001 | 2017-03-23 | 2017-03-25 |
-          | 20000000003 | 2017-03-25 | 2017-04-05 |
-        And the cow should have a date of death of '2017-04-05'
-        And the end date on the latest location should be set to '2017-04-05'
+          | Ubn         | StartDate  | EndDate |
+          | 20000000001 | 2017-03-23 |         |
 
-    Scenario: Female, sold and bought, gave birth
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000006 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-05-01  |
-        And it is added to the incoming events table
-        When it is moved on '2018-07-25', from UBN '20000000001' to UBN '20000000003'
-        And it gave birth on '2019-04-03' on UBN '20000000003'
+    Scenario: A female cow, moving to two farms
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-03-23  | Birth     | 20000000001 |             | 2017-03-23 |
+          | Female | 2017-03-23  | Departure | 20000000001 | 20000000006 | 2017-06-24 |
+          | Female | 2017-03-23  | Departure | 20000000006 | 20000000009 | 2019-04-08 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-05-01 | 101      |
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Departure | 0     | 2017-06-24 | 101      |
+          | 20000000006 | Arrival   | 0     | 2017-06-24 | 101      |
+          | 20000000006 | Departure | 0     | 2019-04-08 | 101      |
+          | 20000000009 | Arrival   | 0     | 2019-04-08 | 0        |
+        And have the location(s)
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2017-06-24 |
+          | 20000000006 | 2017-06-24 | 2019-04-08 |
+          | 20000000009 | 2019-04-08 |            |
+
+    Scenario: A female cow, moving to four farms
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-03-23  | Birth     | 20000000001 |             | 2017-03-23 |
+          | Female | 2017-03-23  | Departure | 20000000001 | 20000000002 | 2017-06-24 |
+          | Female | 2017-03-23  | Departure | 20000000002 | 20000000005 | 2019-04-08 |
+          | Female | 2017-03-23  | Departure | 20000000005 | 20000000006 | 2020-04-08 |
+          | Female | 2017-03-23  | Departure | 20000000006 | 20000000009 | 2022-11-12 |
+        When it is added to the incoming events table
+        Then it should be processed and stored in the database
+        And have the events(s)
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Departure | 0     | 2017-06-24 | 101      |
+          | 20000000002 | Arrival   | 0     | 2017-06-24 | 101      |
+          | 20000000002 | Departure | 0     | 2019-04-08 | 101      |
+          | 20000000005 | Arrival   | 0     | 2019-04-08 | 102      |
+          | 20000000005 | Departure | 0     | 2020-04-08 | 102      |
+          | 20000000006 | Arrival   | 0     | 2020-04-08 | 102      |
+          | 20000000006 | Departure | 0     | 2022-11-12 | 102      |
+          | 20000000009 | Arrival   | 0     | 2022-11-12 | 0        |
+        And have the location(s)
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2017-06-24 |
+          | 20000000002 | 2017-06-24 | 2019-04-08 |
+          | 20000000005 | 2019-04-08 | 2020-04-08 |
+          | 20000000006 | 2020-04-08 | 2022-11-12 |
+          | 20000000009 | 2022-11-12 |            |
+
+    Scenario: A female cow, moving to two farms, then dying
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-03-23  | Birth     | 20000000001 |             | 2017-03-23 |
+          | Female | 2017-03-23  | Departure | 20000000001 | 20000000006 | 2017-06-24 |
+          | Female | 2017-03-23  | Departure | 20000000006 | 20000000009 | 2019-04-08 |
+          | Female | 2017-03-23  | Death     | 20000000009 |             | 2019-04-08 |
+        When it is added to the incoming events table
+        Then it should be processed and stored in the database
+        And have the events(s)
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Departure | 0     | 2017-06-24 | 101      |
+          | 20000000006 | Arrival   | 0     | 2017-06-24 | 101      |
+          | 20000000006 | Departure | 0     | 2019-04-08 | 101      |
+          | 20000000009 | Arrival   | 0     | 2019-04-08 | 0        |
+          | 20000000009 | Death     | 1     | 2019-04-08 | 0        |
+        And have the location(s)
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2017-06-24 |
+          | 20000000006 | 2017-06-24 | 2019-04-08 |
+          | 20000000009 | 2019-04-08 | 2019-04-08 |
+        And the animal should have a date of death of '2019-04-08'
+
+    Scenario: Female, sold and bought, gave birth with, a different event date than the actual birth date
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-03-23  | Birth     | 20000000001 |             | 2017-05-01 |
+          | Female | 2017-03-23  | Departure | 20000000001 | 20000000003 | 2018-07-25 |
+          | Female | 2017-03-23  | Calved    | 20000000003 |             | 2019-04-03 |
+        When it is added to the incoming events table
+        Then it should be processed and stored in the database
+        And have the events(s)
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
           | 20000000001 | Departure | 0     | 2018-07-25 | 101      |
           | 20000000003 | Arrival   | 0     | 2018-07-25 | 102      |
           | 20000000003 | Calved    | 0     | 2019-04-03 | 100      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
+          | Ubn         | StartDate  | EndDate    |
           | 20000000001 | 2017-03-23 | 2018-07-25 |
           | 20000000003 | 2018-07-25 |            |
+        And the animal should have a date first calved of '2019-04-03'
 
-    Scenario: Female, sold and bought, gave birth on arrival, died the same day
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000006 |
-          | Gender      | Female      |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-05-01  |
-        And it is added to the incoming events table
-        When it is moved on '2019-07-25', from UBN '20000000001' to UBN '20000000003'
-        And it gave birth on '2019-07-25' on UBN '20000000003'
-        And it died on '2019-07-25' on UBN '20000000003'
-        Then it should be processed and stored in the database
-        And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000001 | Birth     | 0     | 2017-05-01 | 101      |
-          | 20000000001 | Departure | 0     | 2019-07-25 | 101      |
-          | 20000000003 | Arrival   | 0     | 2019-07-25 | 102      |
-          | 20000000003 | Calved    | 1     | 2019-07-25 | 100      |
-          | 20000000003 | Death     | 2     | 2019-07-25 | 100      |
-        And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000001 | 2017-03-23 | 2019-07-25 |
-          | 20000000003 | 2019-07-25 | 2019-07-25 |
-
-    Scenario: Male, Being born
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000007 |
-          | Gender      | Male        |
-          | Ubn         | 20000000001 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
+    Scenario: Female, sold and bought to a meat farm
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-03-23  | Birth     | 20000000001 |             | 2017-03-23 |
+          | Female | 2017-03-23  | Departure | 20000000001 | 20000000007 | 2018-07-25 |
         When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason | Order | Date       | Category |
-          | 20000000001 | Birth  | 0     | 2017-03-23 | 101      |
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-03-23 | 101      |
+          | 20000000001 | Departure | 0     | 2018-07-25 | 101      |
+          | 20000000007 | Arrival   | 0     | 2018-07-25 | 101      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate |
-          | 20000000001 | 2017-03-23 |         |
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-03-23 | 2018-07-25 |
+          | 20000000007 | 2018-07-25 |            |
 
-    Scenario: Male, being born on a meat breeding farm, moved to different farms
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000008 |
-          | Gender      | Male        |
-          | Ubn         | 20000000002 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2018-07-25', from UBN '20000000002' to UBN '20000000006'
+    Scenario: Female, sold and bought, gave birth on arrival, died the same day
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Female | 2017-05-01  | Birth     | 20000000001 |             | 2017-05-01 |
+          | Female | 2017-05-01  | Departure | 20000000001 | 20000000005 | 2019-07-25 |
+          | Female | 2017-05-01  | Calved    | 20000000005 |             | 2019-07-25 |
+          | Female | 2017-05-01  | Death     | 20000000005 |             | 2019-07-25 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000002 | Birth     | 0     | 2017-03-23 | 0        |
-          | 20000000002 | Departure | 0     | 2018-07-25 | 0        |
-          | 20000000006 | Arrival   | 0     | 2018-07-25 | 0        |
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000001 | Birth     | 0     | 2017-05-01 | 101      |
+          | 20000000001 | Departure | 0     | 2019-07-25 | 101      |
+          | 20000000005 | Arrival   | 0     | 2019-07-25 | 102      |
+          | 20000000005 | Calved    | 1     | 2019-07-25 | 100      |
+          | 20000000005 | Death     | 2     | 2019-07-25 | 100      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000002 | 2017-03-23 | 2018-07-25 |
-          | 20000000006 | 2018-07-25 |            |
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000001 | 2017-05-01 | 2019-07-25 |
+          | 20000000005 | 2019-07-25 | 2019-07-25 |
+        And the animal should have a date first calved of '2019-07-25'
+        And the animal should have a date of death of '2019-07-25'
 
-    Scenario: Male, being born on a meat breeding farm, moved to a milk breeding farm
-        Given an animal, born today
-          | Key         | Value       |
-          | Life Number | 10000000008 |
-          | Gender      | Male        |
-          | Ubn         | 20000000002 |
-          | Reason      | Birth       |
-          | EventDate   | 2017-03-23  |
-        And it is added to the incoming events table
-        When it is moved on '2018-07-25', from UBN '20000000002' to UBN '20000000001'
+    Scenario: Male, being born on a meat breeding farm, moved to different farms, turning 1 years old
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Male   | 2017-03-23  | Birth     | 20000000003 |             | 2017-03-23 |
+          | Male   | 2017-03-23  | Departure | 20000000003 | 20000000007 | 2018-07-25 |
+          | Male   | 2017-03-23  | Death     | 20000000007 |             | 2019-07-25 |
+        When it is added to the incoming events table
         Then it should be processed and stored in the database
         And have the events(s)
-          | Farm        | Reason    | Order | Date       | Category |
-          | 20000000002 | Birth     | 0     | 2017-03-23 | 0        |
-          | 20000000002 | Departure | 0     | 2018-07-25 | 0        |
-          | 20000000001 | Arrival   | 0     | 2018-07-25 | 101      |
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000003 | Birth     | 0     | 2017-03-23 | 0        |
+          | 20000000003 | Departure | 0     | 2018-07-25 | 0        |
+          | 20000000007 | Arrival   | 0     | 2018-07-25 | 104      |
+          | 20000000007 | Death     | 0     | 2019-07-25 | 104      |
         And have the location(s)
-          | Farm        | StartDate  | EndDate    |
-          | 20000000002 | 2017-03-23 | 2018-07-25 |
-          | 20000000001 | 2018-07-25 |            |
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000003 | 2017-03-23 | 2018-07-25 |
+          | 20000000007 | 2018-07-25 | 2019-07-25 |
+        And the animal should have a date of death of '2019-07-25'
+
+    Scenario: Male, being born on a meat breeding farm, moved to a milk breeding farm, moved to another farm, turning 1 years old
+        Given the following event(s)
+          | Gender | DateOfBirth | Reason    | CurrentUbn  | TargetUbn   | EventDate  |
+          | Male   | 2017-03-23  | Birth     | 20000000003 |             | 2017-03-23 |
+          | Male   | 2017-03-23  | Departure | 20000000003 | 20000000001 | 2017-05-25 |
+          | Male   | 2017-03-23  | Departure | 20000000001 | 20000000005 | 2017-06-25 |
+          | Male   | 2017-03-23  | Departure | 20000000005 | 20000000006 | 2018-05-25 |
+        When it is added to the incoming events table
+        Then it should be processed and stored in the database
+        And have the events(s)
+          | Ubn         | Reason    | Order | Date       | Category |
+          | 20000000003 | Birth     | 0     | 2017-03-23 | 0        |
+          | 20000000003 | Departure | 0     | 2017-05-25 | 0        |
+          | 20000000001 | Arrival   | 0     | 2017-05-25 | 101      |
+          | 20000000001 | Departure | 0     | 2017-06-25 | 101      |
+          | 20000000005 | Arrival   | 0     | 2017-06-25 | 101      |
+          | 20000000005 | Departure | 0     | 2018-05-25 | 101      |
+          | 20000000006 | Arrival   | 0     | 2018-05-25 | 104      |
+        And have the location(s)
+          | Ubn         | StartDate  | EndDate    |
+          | 20000000003 | 2017-03-23 | 2017-05-25 |
+          | 20000000001 | 2017-05-25 | 2017-06-25 |
+          | 20000000005 | 2017-06-25 | 2018-05-25 |
+          | 20000000006 | 2018-05-25 |            |

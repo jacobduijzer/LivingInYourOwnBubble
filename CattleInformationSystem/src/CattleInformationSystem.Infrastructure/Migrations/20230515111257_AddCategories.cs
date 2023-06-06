@@ -66,6 +66,26 @@ namespace CattleInformationSystem.Infrastructure.Migrations
                 table: "AnimalCategories",
                 columns: new[] {"Gender", "Calved", "FarmType", "AgeInDays", "Category"},
                 values: new object[] {(int)Gender.Female, false, (int)FarmType.BreedingForMilk, 365, 102});
+            
+            migrationBuilder.InsertData(
+                table: "AnimalCategories",
+                columns: new[] {"Gender", "Calved", "FarmType", "AgeInDays", "Category"},
+                values: new object[] {(int)Gender.Male, false, (int)FarmType.BreedingForMilk, 365, 104});
+            
+            migrationBuilder.InsertData(
+                table: "AnimalCategories",
+                columns: new[] {"Gender", "Calved", "FarmType", "AgeInDays", "Category"},
+                values: new object[] {(int)Gender.Male, false, (int)FarmType.BreedingForMeat, 365, 104});
+            
+            migrationBuilder.InsertData(
+                table: "AnimalCategories",
+                columns: new[] {"Gender", "Calved", "FarmType", "AgeInDays", "Category"},
+                values: new object[] {(int)Gender.Male, false, (int)FarmType.Milk, 365, 104});
+            
+            migrationBuilder.InsertData(
+                table: "AnimalCategories",
+                columns: new[] {"Gender", "Calved", "FarmType", "AgeInDays", "Category"},
+                values: new object[] {(int)Gender.Male, false, (int)FarmType.Meat, 365, 104});
         }
 
         /// <inheritdoc />

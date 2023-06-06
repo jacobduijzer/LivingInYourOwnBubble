@@ -2,6 +2,7 @@ using CattleInformationSystem.Domain;
 using CattleInformationSystem.SharedKernel;
 using Microsoft.Extensions.DependencyInjection;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace CattleInformationSystem.Specs;
 
@@ -13,102 +14,37 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
     private IncomingCowEvent _incomingCowEvent;
     private Farm _targetFarm;
     private Cow? _cow;
+    private static string _lifeNumber;
+    private IEnumerable<IncomingCowEvent> _incomingEvents;
 
     public IncomingAnimalEvents(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
 
-    [Given(@"a farm of type '(.*)', with UBN '(.*)'")]
-    public async Task GivenAFarmOfType(FarmType farmType, string ubn)
+    [BeforeTestRun]
+    public static void BeforeTestRun()
     {
-        Farm farm = new Farm
-        {
-            UBN = ubn,
-            FarmType = farmType
-        };
-
-        await using var scope = _factory.Services.CreateAsyncScope();
-        var farms = scope.ServiceProvider.GetRequiredService<IFarmRepository>();
-        await farms.AddOrUpdate(farm);
+        Service.Instance.ValueRetrievers.Register(new DateOnlyValueRetriever());
+        _lifeNumber = DateTime.Now.ToString("yyyyddMMhhmmssfff");
     }
 
-    [Given(@"an animal, born today")]
-    public async Task GivenAnAnimalBornToday(Table table)
+    [Given(@"the following event\(s\)")]
+    public void GivenTheFollowingEventS(Table table)
     {
-        var incomingCowEvent = Extensions.ToDictionary(table);
-
-        _incomingCowEvent = new IncomingCowEvent
-        {
-            LifeNumber = incomingCowEvent["Life Number"],
-            Gender = Enum.Parse<Gender>(incomingCowEvent["Gender"]),
-            DateOfBirth = DateOnly.Parse(incomingCowEvent["EventDate"]),
-            Reason = Enum.Parse<Reason>(incomingCowEvent["Reason"]),
-            UBN_1 = incomingCowEvent["Ubn"],
-            EventDate = DateOnly.Parse(incomingCowEvent["EventDate"])
-        };
+        _incomingEvents = table.CreateSet<IncomingCowEvent>(ConvertToIncomingCowEvent);
     }
 
-    [Given(@"it is added to the incoming events table")]
     [When(@"it is added to the incoming events table")]
     public async Task WhenItIsAddedToTheIncomingEventsTable()
     {
         await using var scope = _factory.Services.CreateAsyncScope();
         var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
-        await incomingCowEvents.Add(_incomingCowEvent);
-    }
-
-    [When(@"it is moved on '(.*)', from UBN '(.*)' to UBN '(.*)'")]
-    public async Task WhenItIsSoldOnToUbn(string eventDate, string fromUbn, string toUbn)
-    {
-        _incomingCowEvent = new IncomingCowEvent
+        foreach (var incomingEvent in _incomingEvents)
         {
-            LifeNumber = _incomingCowEvent.LifeNumber,
-            Gender = _incomingCowEvent.Gender,
-            DateOfBirth = _incomingCowEvent.DateOfBirth,
-            Reason = Reason.Departure,
-            UBN_1 = fromUbn,
-            UBN_2 = toUbn,
-            EventDate = DateOnly.Parse(eventDate)
-        };
-
-        await using var scope = _factory.Services.CreateAsyncScope();
-        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
-        await incomingCowEvents.Add(_incomingCowEvent);
-    }
-    
-    [When(@"it gave birth on '(.*)' on UBN '(.*)'")]
-    public async Task WhenItGaveBirthOnOnUbn(string eventDate, string ubn)
-    {
-        _incomingCowEvent = new IncomingCowEvent
-        {
-            LifeNumber = _incomingCowEvent.LifeNumber,
-            Gender = _incomingCowEvent.Gender,
-            Reason = Reason.Calved,
-            UBN_1 = ubn,
-            EventDate = DateOnly.Parse(eventDate)
-        };
-
-        await using var scope = _factory.Services.CreateAsyncScope();
-        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
-        await incomingCowEvents.Add(_incomingCowEvent);
-    }
-    
-    [When(@"it died on '(.*)' on UBN '(.*)'")]
-    public async Task WhenItDiedOnOnUbn(string eventDate, string ubn)
-    {
-        _incomingCowEvent = new IncomingCowEvent
-        {
-            LifeNumber = _incomingCowEvent.LifeNumber,
-            Gender = _incomingCowEvent.Gender,
-            Reason = Reason.Death,
-            UBN_1 = ubn,
-            EventDate = DateOnly.Parse(eventDate)
-        };
-
-        await using var scope = _factory.Services.CreateAsyncScope();
-        var incomingCowEvents = scope.ServiceProvider.GetRequiredService<IIncomingCowEventRepository>();
-        await incomingCowEvents.Add(_incomingCowEvent);
+            await incomingCowEvents.Add(incomingEvent);
+            await Task.Delay(50);
+        }
     }
 
     [Then(@"it should be processed and stored in the database")]
@@ -116,10 +52,10 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
     {
         await using var scope = _factory.Services.CreateAsyncScope();
         var cows = scope.ServiceProvider.GetRequiredService<ICowRepository>();
-        _cow = await cows.ByLifeNumber(_incomingCowEvent.LifeNumber);
+        _cow = await cows.ByLifeNumber(_lifeNumber);
 
         Assert.True(_cow != null,
-            $"A cow with lifenumber {_incomingCowEvent.LifeNumber} is not available in the database.");
+            $"A cow with life number {_lifeNumber} is not available in the database.");
     }
 
     [Then(@"have the events\(s\)")]
@@ -131,49 +67,65 @@ public class IncomingAnimalEvents : IClassFixture<CustomWebApplicationFactory<Pr
         foreach (var dataRow in table.Rows)
         {
             var cowEvent = _cow.CowEvents.FirstOrDefault(ce =>
-                ce.Farm.UBN.Equals(dataRow["Farm"]) &&
+                ce.Farm.UBN.Equals(dataRow["Ubn"]) &&
                 ce.Reason.Equals(Enum.Parse<Reason>(dataRow["Reason"])) &&
-                ce.Order.Equals(int.Parse(dataRow["Order"])) && 
+                ce.Order.Equals(int.Parse(dataRow["Order"])) &&
                 ce.EventDate.Equals(DateOnly.Parse(dataRow["Date"])) &&
                 ce.Category.Equals(int.Parse(dataRow["Category"])));
-            
+
             Assert.True(cowEvent != null,
-                $"Cow Event not found: {dataRow["Farm"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
+                $"Cow Event not found: {dataRow["Ubn"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
         }
     }
-    
+
     [Then(@"have the location\(s\)")]
     public void ThenHaveTheLocationS(Table table)
     {
         Assert.True(_cow.FarmCows.Count() == table.RowCount,
             "The amount of locations is not the same as the expected amount.");
-        
+
         foreach (var dataRow in table.Rows)
         {
             var location = _cow.FarmCows.FirstOrDefault(fc =>
-                fc.Farm.UBN.Equals(dataRow["Farm"]) &&
+                fc.Farm.UBN.Equals(dataRow["Ubn"]) &&
                 fc.StartDate.Equals(DateOnly.Parse(dataRow["StartDate"])) &&
-                !string.IsNullOrEmpty(dataRow["EndDate"]) ? fc.EndDate.Value.Equals(DateOnly.Parse(dataRow["EndDate"])) : true);
-            
+                CheckForEndDate(fc, dataRow["EndDate"]));
+
             Assert.True(location != null,
-                $"Location not found: {dataRow["Farm"]} - {dataRow["StartDate"]} - {dataRow["EndDate"]}");
+                $"Location not found: {dataRow["Ubn"]} - {dataRow["StartDate"]} - {dataRow["EndDate"]}");
         }
+        
+        bool CheckForEndDate(FarmCow farmCow, string endDate) =>
+            !string.IsNullOrEmpty(endDate) ?
+                farmCow.EndDate.HasValue && farmCow.EndDate.Value.Equals(DateOnly.Parse(endDate)) :
+                !farmCow.EndDate.HasValue;
     }
 
-
-    [Then(@"the cow should have a date of death of '(.*)'")]
-    public void ThenTheCowShouldHaveADateOfDeathOf(string dateOfDeath)
+    [Then(@"the animal should have a date of death of '(.*)'")]
+    public void ThenTheAnimalShouldHaveADateOfDeathOf(string dateOfDeath)
     {
-        Assert.True(_cow!.DateOfDeath.HasValue, "Date of death is not filled.");
+        Assert.True(_cow!.DateOfDeath.HasValue, "Date of death is not set.");
         Assert.True(_cow!.DateOfDeath.Value.Equals(DateOnly.Parse(dateOfDeath)), "Date of death is incorrect.");
     }
-
-    [Then(@"the end date on the latest location should be set to '(.*)'")]
-    public void ThenTheEndDateOnTheLatestLocationShouldBeSetTo(string dateOfDeath)
+    
+    [Then(@"the animal should have a date first calved of '(.*)'")]
+    public void ThenTheAnimalShouldHaveADateFirstCalvedOf(string dateFirstCalved)
     {
-        Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.HasValue, "The end date of the last location has not been filled.");
-        Assert.True(_cow!.FarmCows.OrderByDescending(fc => fc.StartDate).First().EndDate.Value.Equals(DateOnly.Parse(dateOfDeath)), "End date is incorrect.");
+        Assert.True(_cow!.DateFirstCalved.HasValue, "Date first calved is not set.");
+        Assert.True(_cow!.DateFirstCalved.Value.Equals(DateOnly.Parse(dateFirstCalved)));
     }
+
+    private static IncomingCowEvent ConvertToIncomingCowEvent(TableRow row) =>
+        new IncomingCowEvent()
+        {
+            LifeNumber = _lifeNumber,
+            Gender = Enum.Parse<Gender>(row["Gender"]),
+            DateOfBirth = DateOnly.Parse(row["DateOfBirth"]),
+            Reason = Enum.Parse<Reason>(row["Reason"]),
+            UBN_1 = row["CurrentUbn"],
+            UBN_2 = !string.IsNullOrEmpty(row["TargetUbn"]) ? row["TargetUbn"] : null,
+            EventDate = DateOnly.Parse(row["EventDate"])
+        };
 
     
 }

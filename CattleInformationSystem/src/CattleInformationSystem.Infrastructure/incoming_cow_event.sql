@@ -36,10 +36,10 @@ BEGIN
             SELECT "category"
             INTO target_animal_category
             FROM determine_cow_category(NEW."Gender", false, 0, from_farm_type);
-
+           
             -- CREATE EVENT
             INSERT INTO "CowEvents" ("FarmId", "CowId", "Reason", "Category", "EventDate", "Order")
-            VALUES (from_farm_id, cow_id, NEW."Reason", target_animal_category, NEW."EventDate", 0);
+            VALUES (from_farm_id, cow_id, NEW."Reason", target_animal_category, NEW."DateOfBirth", 0);
         END;
 
         -- DEPARTURE (& ARRIVAL)

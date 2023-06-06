@@ -18,7 +18,6 @@ await using (var scope = app.Services.CreateAsyncScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
     dbContext.Database.EnsureDeleted();
     dbContext.Database.Migrate();
-    await new AnimalCategorySeeder(dbContext).Seed();
     await new FarmSeeder(dbContext).Seed();
 }
 
