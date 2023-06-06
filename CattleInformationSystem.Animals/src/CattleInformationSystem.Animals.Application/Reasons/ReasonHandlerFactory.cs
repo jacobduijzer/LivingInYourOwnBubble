@@ -24,7 +24,7 @@ public class ReasonHandlerFactory
         incomingAnimalEvent.Reason switch
         {
             Reason.Birth => new BirthHandler(_animals, _farms, _animalCategoryDeterminationService),
-            Reason.Departure => new DepartureHandler(_animals, _farms, _animalCategoryDeterminationService), 
+            Reason.Departure => throw new NotImplementedException($"The handler for '{Reason.Departure}' is not implemented yet."),
             Reason.Calved => new CalvedHandler(_animals, _farms, _animalCategoryDeterminationService),
             Reason.Death => new DeathHandler(_animals, _farms),
             _ => throw new NotImplementedException($"A handler for reason '{incomingAnimalEvent.Reason}' is not implemented.")
