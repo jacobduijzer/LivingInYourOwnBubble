@@ -45,7 +45,7 @@ should be processed and inserted or updated in the database.
         And have the location(s)
           | Ubn         | StartDate  | EndDate    |
           | 20000000001 | 2017-03-23 | 2017-03-23 |
-        And the animal should have a date of death of '2017-03-24'
+        And the animal should have a date of death of '2017-03-23'
 
     Scenario: A newborn female on a milk breeding farm, giving birth after 3 years
         Given the following event(s)

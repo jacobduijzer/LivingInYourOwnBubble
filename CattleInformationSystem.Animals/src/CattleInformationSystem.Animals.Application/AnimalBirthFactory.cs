@@ -24,7 +24,7 @@ public class AnimalBirthFactory
         animal.AddAnimalLocation(currentFarm.UBN, incomingAnimalEventCreated.DateOfBirth);
         
         var category = _categories.DeterminateCurrent(animal, currentFarm.FarmType, incomingAnimalEventCreated.DateOfBirth);
-        animal.AddAnimalEvent(currentFarm.UBN, incomingAnimalEventCreated.Reason, incomingAnimalEventCreated.DateOfBirth, category);
+        animal.AddAnimalEvent(currentFarm.UBN, incomingAnimalEventCreated.Reason, incomingAnimalEventCreated.DateOfBirth, category, null);
 
         return animal;
     }

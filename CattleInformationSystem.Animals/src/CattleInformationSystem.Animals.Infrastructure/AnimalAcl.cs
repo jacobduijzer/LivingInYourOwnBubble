@@ -29,7 +29,7 @@ public class AnimalAcl : IAnimalACL
         foreach (var ce in cow.CowEvents)
         {
             var farm = farms.Single(f => f.Id.Equals(ce.FarmId));
-            animal.AddAnimalEvent(farm.UBN, ce.Reason, ce.EventDate, ce.Category);
+            animal.AddAnimalEvent(farm.UBN, ce.Reason, ce.EventDate, ce.Category, ce.Order);
         }
 
         foreach (var fc in cow.FarmCows)

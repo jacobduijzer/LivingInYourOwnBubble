@@ -320,7 +320,7 @@ namespace CattleInformationSystem.Specs
         testRunner.And("have the location(s)", ((string)(null)), table9, "And ");
 #line hidden
 #line 48
-        testRunner.And("the animal should have a date of death of \'2017-03-24\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("the animal should have a date of death of \'2017-03-23\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

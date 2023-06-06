@@ -45,7 +45,7 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
         _lifeNumber = DateTime.Now.ToString("yyyyddMMhhmmssfff");
         await using var scope = _factory.Services.CreateAsyncScope();
         IBus bus = scope.ServiceProvider.GetRequiredService<IBus>();
-        foreach (var animalEvent in _incomingEvents.OrderBy(x => x.EventDate))
+        foreach (var animalEvent in _incomingEvents) //.OrderBy(x => x.EventDate))
         {
             await bus.Publish<IncomingAnimalEventCreated>(animalEvent with {LifeNumber = _lifeNumber});
             await Task.Delay(500);
@@ -73,12 +73,49 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
         foreach (var dataRow in table.Rows)
         {
             Assert.True(_animal.AnimalEvents.Count(ce =>
-                    ce.Ubn.Equals(dataRow["Farm"]) &&
+                    ce.Ubn.Equals(dataRow["Ubn"]) &&
                     ce.Reason.Equals(Enum.Parse<Reason>(dataRow["Reason"])) &&
                     ce.Order.Equals(int.Parse(dataRow["Order"])) &&
                     ce.EventDate.Equals(DateOnly.Parse(dataRow["Date"])) &&
                     ce.Category.Equals(int.Parse(dataRow["Category"]))) == 1,
-                $"Animal Event not found for animal '{_lifeNumber}': {dataRow["Farm"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
+                $"Animal Event not found for animal '{_lifeNumber}': {dataRow["Ubn"]} - {dataRow["Reason"]} - {dataRow["Order"]} - {dataRow["Date"]} - {dataRow["Category"]}");
         }
+    }
+    
+    [Then(@"have the location\(s\)")]
+    public void ThenHaveTheLocationS(Table table)
+    {
+        Assert.True(_animal.AnimalLocations.Count() == table.RowCount,
+            "The amount of locations is not the same as the expected amount.");
+
+        foreach (var dataRow in table.Rows)
+        {
+            var location = _animal.AnimalLocations.FirstOrDefault(al =>
+                al.Ubn.Equals(dataRow["Ubn"]) &&
+                al.StartDate.Equals(DateOnly.Parse(dataRow["StartDate"])) &&
+                CheckForEndDate(al, dataRow["EndDate"]));
+
+            Assert.True(location != null,
+                $"Location not found: {dataRow["Ubn"]} - {dataRow["StartDate"]} - {dataRow["EndDate"]}");
+        }
+        
+        bool CheckForEndDate(AnimalLocation animalLocation, string endDate) =>
+            !string.IsNullOrEmpty(endDate) ?
+                animalLocation.EndDate.HasValue && animalLocation.EndDate.Value.Equals(DateOnly.Parse(endDate)) :
+                !animalLocation.EndDate.HasValue;
+    }
+
+    [Then(@"the animal should have a date of death of '(.*)'")]
+    public void ThenTheAnimalShouldHaveADateOfDeathOf(string dateOfDeath)
+    {
+        Assert.True(_animal!.DateOfDeath.HasValue, "Date of death is not set.");
+        Assert.True(_animal!.DateOfDeath.Value.Equals(DateOnly.Parse(dateOfDeath)), "Date of death is incorrect.");
+    }
+
+    [Then(@"the animal should have a date first calved of '(.*)'")]
+    public void ThenTheAnimalShouldHaveADateFirstCalvedOf(string dateFirstCalved)
+    {
+        Assert.True(_animal!.DateFirstCalved.HasValue, "Date first calved is not set.");
+        Assert.True(_animal!.DateFirstCalved.Value.Equals(DateOnly.Parse(dateFirstCalved)));
     }
 }

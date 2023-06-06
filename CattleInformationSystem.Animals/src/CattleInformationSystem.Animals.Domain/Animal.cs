@@ -43,22 +43,22 @@ public class Animal : IAggregateRoot
         AnimalLocations.Add(animalLocation);
     }
 
-    public void AddAnimalEvent(string ubn, Reason reason, DateOnly eventDate, int category) =>
-        AnimalEvents.Add(new(ubn, reason, eventDate, category, GetNextOrder(ubn, eventDate)));
+    public void AddAnimalEvent(string ubn, Reason reason, DateOnly eventDate, int category, int? order) =>
+        AnimalEvents.Add(new(ubn, reason, eventDate, category, order.HasValue ? order.Value : GetNextOrder(ubn, eventDate)));
 
     public void HandleFirstCalved(Farm farm, DateOnly eventDate, AnimalCategoryDeterminationService categoryDeterminationService)
     {
         DateFirstCalved = eventDate;
 
         var category = categoryDeterminationService.DeterminateCurrent(this, farm.FarmType, eventDate);
-        AddAnimalEvent(farm.UBN, Reason.Calved, eventDate, category);
+        AddAnimalEvent(farm.UBN, Reason.Calved, eventDate, category, null);
     }
 
     public void HandleDeath(string ubn, DateOnly eventDate)
     {
         DateOfDeath = eventDate;
 
-        AddAnimalEvent(ubn, Reason.Death, eventDate, GetLastCategory(ubn));
+        AddAnimalEvent(ubn, Reason.Death, eventDate, GetLastCategory(ubn), null);
 
         SetEndDateForLocation(ubn, eventDate);
     }
@@ -100,9 +100,9 @@ public class Animal : IAggregateRoot
         AnimalLocations.Add(animalLocation);
 
         var lastCategory = GetLastCategory(currentFarm.UBN);
-        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory);
+        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory, null);
 
         var newCategory = categoryDetermination.DeterminateCurrent(this, destinationFarm.FarmType, eventDate);
-        AddAnimalEvent(destinationFarm.UBN, Reason.Arrival, eventDate, newCategory);
+        AddAnimalEvent(destinationFarm.UBN, Reason.Arrival, eventDate, newCategory, null);
     }
 }
