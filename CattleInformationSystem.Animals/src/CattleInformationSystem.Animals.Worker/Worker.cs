@@ -2,28 +2,19 @@ using MassTransit;
 
 namespace CattleInformationSystem.Animals.Worker;
 
-public class Worker : IHostedService
+public class Worker(
+    IBusControl busControl,
+    ILogger<Worker> logger) : IHostedService
 {
-    private readonly IBusControl _busControl;
-    private readonly ILogger<Worker> _logger;
-
-    public Worker(
-        IBusControl busControl,
-        ILogger<Worker> logger)
-    {
-        _busControl = busControl;
-        _logger = logger;
-    }
-
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Starting the bus for {nameof(IncomingCowEventConsumer)}...");
-        return _busControl.StartAsync(cancellationToken);
+        logger.LogInformation($"Starting the bus for {nameof(IncomingCowEventConsumer)}...");
+        return busControl.StartAsync(cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Stopping the bus for {nameof(IncomingCowEventConsumer)}...");
-        return _busControl.StopAsync(cancellationToken);
+        logger.LogInformation($"Stopping the bus for {nameof(IncomingCowEventConsumer)}...");
+        return busControl.StopAsync(cancellationToken);
     }
 }

@@ -6,27 +6,13 @@ namespace CattleInformationSystem.Application;
 
 public record CreateTestDataCommand();
 
-public class CreateTestDataHandler
+public class CreateTestDataHandler(
+    IDataGenerator dataGenerator,
+    ICowRepository cows,
+    IFarmRepository farms,
+    IFarmCowRepository farmCows)
 {
-    private readonly IDataGenerator _dataGenerator;
-    private readonly ICowRepository _cows;
-    private readonly IFarmRepository _farms;
-    private readonly IFarmCowRepository _farmCows;
-    private readonly Random _random;
-
-    public CreateTestDataHandler(
-        IDataGenerator dataGenerator,
-        ICowRepository cows,
-        IFarmRepository farms,
-        IFarmCowRepository farmCows)
-    {
-        _dataGenerator = dataGenerator;
-        _cows = cows;
-        _farms = farms;
-        _farmCows = farmCows;
-
-        _random = new Random();
-    }
+    private readonly Random _random = new();
 
     public async Task Handle(CreateTestDataCommand createTestDataCommand)
     {
@@ -39,27 +25,27 @@ public class CreateTestDataHandler
 
     private async Task CreateFarmsAndCows()
     {
-        var farms = _dataGenerator.Farms();
-        await _farms.AddRange(farms);
+        var farms1 = dataGenerator.Farms();
+        await farms.AddRange(farms1);
 
-        var cows = _dataGenerator.Cows();
-        await _cows.AddRange(cows);
+        var cows1 = dataGenerator.Cows();
+        await cows.AddRange(cows1);
     }
 
     private async Task AddCowsToInitialFarm()
     {
-        var farms = await _farms.All();
-        var cows = await _cows.All();
+        var farms1 = await farms.All();
+        var cows1 = await cows.All();
 
-        foreach (var cow in cows)
+        foreach (var cow in cows1)
         {
             if (cow.Gender == Gender.Female)
             {
-                var farm = farms
+                var farm = farms1
                     .Where(farm => farm.FarmType == FarmType.BreedingForMilk)
                     .RandomElement();
 
-                await _farmCows.Add(new FarmCow()
+                await farmCows.Add(new FarmCow()
                 {
                     FarmId = farm.Id,
                     CowId = cow.Id,
@@ -68,11 +54,11 @@ public class CreateTestDataHandler
             }
             else
             {
-                var farm = farms
+                var farm = farms1
                     .Where(farm => farm.FarmType == FarmType.BreedingForMeat)
                     .RandomElement();
 
-                await _farmCows.Add(new FarmCow()
+                await farmCows.Add(new FarmCow()
                 {
                     FarmId = farm.Id,
                     CowId = cow.Id,
@@ -84,16 +70,16 @@ public class CreateTestDataHandler
 
     private async Task MakeCowTransitions()
     {
-        var farms = await _farms.All();
-        var transitionFactory = new TransitionFactory(_farmCows, farms);
+        var farms1 = await farms.All();
+        var transitionFactory = new TransitionFactory(farmCows, farms1);
 
-        foreach (var farm in farms.Where(farm => farm.Cows != null && farm.Cows.Any()).ToList())
+        foreach (var farm in farms1.Where(farm => farm.Cows != null && farm.Cows.Any()).ToList())
         {
             await transitionFactory
                 .Create(farm.FarmType)
                 .Handle(farm);
         }
 
-        await _farms.SaveChanges();
+        await farms.SaveChanges();
     }
 }

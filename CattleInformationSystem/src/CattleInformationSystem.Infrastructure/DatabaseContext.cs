@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CattleInformationSystem.Infrastructure;
 
-public class DatabaseContext : DbContext
+public class DatabaseContext(DbContextOptions<DatabaseContext> options) : DbContext(options)
 {
-    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-    {
-    }
-
     public DbSet<Farm> Farms => Set<Farm>();
     public DbSet<Cow?> Cows => Set<Cow>();
     public DbSet<FarmCow> FarmCows => Set<FarmCow>();

@@ -3,21 +3,14 @@ using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Infrastructure;
 
-public class FarmSeeder
+public class FarmSeeder(DatabaseContext databaseContext)
 {
-    private readonly DatabaseContext _databaseContext;
-
-    public FarmSeeder(DatabaseContext databaseContext)
-    {
-        _databaseContext = databaseContext;
-    }
-
     public async Task Seed()
     {
-        if (_databaseContext.Farms.Any())
+        if (databaseContext.Farms.Any())
             return;
 
-        await _databaseContext.Farms.AddRangeAsync(new List<Farm>()
+        await databaseContext.Farms.AddRangeAsync(new List<Farm>()
         {
             new Farm { UBN = "20000000001", FarmType = FarmType.BreedingForMilk },
             new Farm { UBN = "20000000002", FarmType = FarmType.BreedingForMilk },
@@ -30,6 +23,6 @@ public class FarmSeeder
             new Farm { UBN = "20000000009", FarmType = FarmType.Slaughterhouse},
             new Farm { UBN = "20000000010", FarmType = FarmType.Slaughterhouse},
         });
-        await _databaseContext.SaveChangesAsync();
+        await databaseContext.SaveChangesAsync();
     }
 }
