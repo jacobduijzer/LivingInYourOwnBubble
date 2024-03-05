@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{EA0EAD49-D80F-4344-89F3-7B6FE7281E90}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
+		..\Dockerfile.web = ..\Dockerfile.web
+		..\Dockerfile.worker = ..\Dockerfile.worker
+		..\docker-compose.yml = ..\docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CattleInformationSystem.UnitTests", "src\CattleInformationSystem.UnitTests\CattleInformationSystem.UnitTests.csproj", "{FCF5C04B-477D-476F-98BB-F07E01C645DA}"
