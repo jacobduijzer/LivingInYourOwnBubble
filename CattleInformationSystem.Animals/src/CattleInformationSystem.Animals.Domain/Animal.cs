@@ -95,6 +95,9 @@ public class Animal : IAggregateRoot
     public void HandleDepartureAndArrivalEvent(Farm currentFarm, Farm destinationFarm, DateOnly eventDate, AnimalCategoryDeterminationService categoryDetermination)
     {
         SetEndDateForLocation(currentFarm.UBN, eventDate);
+
+        var animalLocation = new AnimalLocation(destinationFarm.UBN, eventDate);
+        AnimalLocations.Add(animalLocation);
         
         throw new NotImplementedException();
     }
