@@ -12,19 +12,6 @@ docker-compose up
 
 The web application will be accessible on 'http://localhost' (if all goes well).
 
-## Running the application with project Tye
-
-For those who do not know [Project Tye](https://github.com/dotnet/tye), from their GitHub repository: "Tye is a developer tool that makes developing, testing, and deploying microservices and distributed applications easier".
-If you have Tye installed, from the root of the project, run the following command:
-
-```shell
-tye run
-```
-
-The web application will be accessible on 'http://localhost:8000'
-
-Open the Tye dashboard to see all running services.
-
 ## Cattle Information System
 
 This application is created to help with rebuilding a legacy system. It makes sure the database functions are created and it can be used to execute specifications (SpecFlow), which are test scenario's. They can also be used to demonstrate the working of the processing of animal events with the database functions.
