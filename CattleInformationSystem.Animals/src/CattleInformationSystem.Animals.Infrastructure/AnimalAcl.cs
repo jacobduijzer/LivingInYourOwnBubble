@@ -3,7 +3,7 @@ using CattleInformationSystem.Animals.Infrastructure.AnimalCowMapping;
 
 namespace CattleInformationSystem.Animals.Infrastructure;
 
-public class AnimalAcl : IAnimalACL
+public class AnimalAcl : IAnimalAcl
 {
     private readonly IFarmRepository _farms;
     private readonly ICowRepository _cows;

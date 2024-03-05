@@ -13,7 +13,7 @@ builder.Services
     .AddDbContext<DatabaseContext>(options => options.UseNpgsql(databaseConnection))
     .AddLogging(config => config.AddSeq())
     .AddScoped<IncomingCowEventHandler>()
-    .AddScoped<IAnimalACL, AnimalAcl>()
+    .AddScoped<IAnimalAcl, AnimalAcl>()
     .AddScoped<ICowRepository, CowRepository>()
     .AddScoped<IFarmRepository, FarmRepository>()
     .AddScoped<ICategoryRepository, CategoryRepository>()

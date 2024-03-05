@@ -4,12 +4,12 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class DepartureHandler(
-    IAnimalACL animals,
+    IAnimalAcl animals,
     IReadOnlyCollection<Farm> farms,
     AnimalCategoryDeterminationService categoryDetermination)
     : IReasonHandler
 {
-    private readonly IAnimalACL _animals = animals;
+    private readonly IAnimalAcl _animals = animals;
     private readonly IReadOnlyCollection<Farm> _farms = farms;
     private readonly AnimalCategoryDeterminationService _categoryDetermination = categoryDetermination;
 

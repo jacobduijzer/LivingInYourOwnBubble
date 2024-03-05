@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Animals.Domain;

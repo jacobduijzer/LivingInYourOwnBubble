@@ -1,6 +1,6 @@
 namespace CattleInformationSystem.Animals.Domain;
 
-public interface IAnimalACL
+public interface IAnimalAcl
 {
     Task<Animal> ByLifeNumber(string lifeNumber);
     Task Save(Animal animal);

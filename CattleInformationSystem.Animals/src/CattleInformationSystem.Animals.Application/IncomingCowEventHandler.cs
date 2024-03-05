@@ -6,7 +6,7 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application;
 
 public class IncomingCowEventHandler(
-    IAnimalACL animalAcl,
+    IAnimalAcl animalAcl,
     ICategoryRepository categoryRepository,
     IFarmRepository farms)
 {

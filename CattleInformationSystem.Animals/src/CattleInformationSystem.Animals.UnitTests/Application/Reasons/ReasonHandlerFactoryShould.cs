@@ -12,7 +12,7 @@ public class ReasonHandlerFactoryShould
     public void ThrowUnimplementedWhenAnimalEventIsArrival()
     {
         // ARRANGE
-        var animalAclMock = new Mock<IAnimalACL>();
+        var animalAclMock = new Mock<IAnimalAcl>();
         ReasonHandlerFactory factory = new(
             new List<AnimalCategory>(),
             new List<Farm>(),
@@ -42,7 +42,7 @@ public class ReasonHandlerFactoryShould
     public void CreateHandlerForImplementedTypes(Reason reason, Type expectedType)
     {
         // ARRANGE
-        var animalAclMock = new Mock<IAnimalACL>();
+        var animalAclMock = new Mock<IAnimalAcl>();
         ReasonHandlerFactory factory = new(
             new List<AnimalCategory>(),
             new List<Farm>(),

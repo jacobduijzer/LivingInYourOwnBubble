@@ -4,7 +4,7 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class CalvedHandler(
-    IAnimalACL animals,
+    IAnimalAcl animals,
     IEnumerable<Farm> farms,
     AnimalCategoryDeterminationService categoryDetermination)
     : IReasonHandler

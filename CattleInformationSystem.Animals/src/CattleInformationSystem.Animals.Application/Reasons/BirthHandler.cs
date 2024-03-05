@@ -4,7 +4,7 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class BirthHandler(
-    IAnimalACL animalsAcl,
+    IAnimalAcl animalsAcl,
     IEnumerable<Farm> farms,
     AnimalCategoryDeterminationService categoryDetermination)
     : IReasonHandler

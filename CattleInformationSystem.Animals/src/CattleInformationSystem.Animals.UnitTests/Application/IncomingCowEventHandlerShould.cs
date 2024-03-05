@@ -22,7 +22,7 @@ public class IncomingCowEventHandlerShould
     public void RequestTheCorrectCategoriesViaAclWithCurrentUbnOnly()
     {
        // ARRANGE
-       var mockAnimals = new Mock<IAnimalACL>();
+       var mockAnimals = new Mock<IAnimalAcl>();
        var mockFarms = new Mock<IFarmRepository>();
        IncomingCowEventHandler handler = new(mockAnimals.Object, new CategoryRepositoryStub(), mockFarms.Object);
 
@@ -37,7 +37,7 @@ public class IncomingCowEventHandlerShould
     public void RequestTheCorrectCategoriesViaAclWithCurrentAndDestinationUbn()
     {
         // ARRANGE
-        var mockAnimals = new Mock<IAnimalACL>();
+        var mockAnimals = new Mock<IAnimalAcl>();
         var mockFarms = new Mock<IFarmRepository>();
         IncomingCowEventHandler handler = new(mockAnimals.Object, new CategoryRepositoryStub(), mockFarms.Object);
 

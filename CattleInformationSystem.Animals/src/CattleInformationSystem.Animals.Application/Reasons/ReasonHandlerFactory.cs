@@ -7,7 +7,7 @@ namespace CattleInformationSystem.Animals.Application.Reasons;
 public class ReasonHandlerFactory(
     IReadOnlyCollection<AnimalCategory> animalCategories,
     IEnumerable<Farm> farms,
-    IAnimalACL animals)
+    IAnimalAcl animals)
 {
     private readonly AnimalCategoryDeterminationService _animalCategoryDeterminationService = new(animalCategories);
 

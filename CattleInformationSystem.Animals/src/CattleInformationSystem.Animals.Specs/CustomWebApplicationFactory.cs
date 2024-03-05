@@ -28,7 +28,7 @@ public class CustomWebApplicationFactory<TProgram>
             // TODO: settings
             services
                 .AddDbContext<DatabaseContext>(options => options.UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=CattleInformationDatabase;Pooling=true;"))
-                .AddScoped<IAnimalACL, AnimalAcl>()
+                .AddScoped<IAnimalAcl, AnimalAcl>()
                 .AddScoped<ICowRepository, CowRepository>()
                 .AddScoped<IFarmRepository, FarmRepository>();
         });

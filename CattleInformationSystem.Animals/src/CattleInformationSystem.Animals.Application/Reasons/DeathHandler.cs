@@ -4,7 +4,7 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class DeathHandler(
-    IAnimalACL animals,
+    IAnimalAcl animals,
     IEnumerable<Farm> farms) : IReasonHandler
 {
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)

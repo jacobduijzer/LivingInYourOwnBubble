@@ -56,7 +56,7 @@ public class AnimalEvents : IClassFixture<CustomWebApplicationFactory<Program>>
     public async Task ThenItWillBeProcessedAndAddedToTheLegacyDatabase()
     {
         await using var scope = _factory.Services.CreateAsyncScope();
-        var animals = scope.ServiceProvider.GetRequiredService<IAnimalACL>();
+        var animals = scope.ServiceProvider.GetRequiredService<IAnimalAcl>();
 
         _animal = await _retryPolicy.ExecuteAsync(async () => await animals.ByLifeNumber(_lifeNumber));
 
