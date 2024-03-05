@@ -3,23 +3,17 @@ using CattleInformationSystem.SharedKernel.Contracts;
 
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
-public class BirthHandler : IReasonHandler
+public class BirthHandler(
+    IAnimalACL animalsAcl,
+    IEnumerable<Farm> farms,
+    AnimalCategoryDeterminationService categoryDetermination)
+    : IReasonHandler
 {
-    private readonly IAnimalACL _animalsACL;
-    private readonly AnimalBirthFactory _animalBirthFactory;
+    private readonly AnimalBirthFactory _animalBirthFactory = new(farms, categoryDetermination);
 
-    public BirthHandler(
-        IAnimalACL animalsAcl,
-        IReadOnlyCollection<Farm> farms, 
-        AnimalCategoryDeterminationService categoryDetermination)
-    {
-        _animalsACL = animalsAcl;
-        _animalBirthFactory = new AnimalBirthFactory(farms, categoryDetermination);
-    }
-    
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
         var newAnimal = _animalBirthFactory.PerformBirth(incomingAnimalEvent);
-        await _animalsACL.Save(newAnimal);
+        await animalsAcl.Save(newAnimal);
     }
 }

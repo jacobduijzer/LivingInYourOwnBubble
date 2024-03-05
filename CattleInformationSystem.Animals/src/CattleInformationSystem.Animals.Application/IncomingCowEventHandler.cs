@@ -5,30 +5,19 @@ using CattleInformationSystem.SharedKernel.Contracts;
 
 namespace CattleInformationSystem.Animals.Application;
 
-public class IncomingCowEventHandler
+public class IncomingCowEventHandler(
+    IAnimalACL animalAcl,
+    ICategoryRepository categoryRepository,
+    IFarmRepository farms)
 {
-    private readonly IAnimalACL _animals;
-    private readonly IFarmRepository _farms;
-    private readonly ICategoryRepository _categories;
-
-    public IncomingCowEventHandler(
-        IAnimalACL animalAcl,
-        ICategoryRepository categoryRepository,
-        IFarmRepository farms)
-    {
-        _animals = animalAcl;
-        _categories = categoryRepository;
-        _farms = farms;
-    }
-
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
         // ACL: GET NEEDED DATA FROM LEGACY
-        var animalCategories = await _categories.All();
-        var farms = await _farms.ByUbns(CreateUbnList(incomingAnimalEvent));
+        var animalCategories = await categoryRepository.All();
+        var farms1 = await farms.ByUbns(CreateUbnList(incomingAnimalEvent));
 
         // HANDLE INCOMING EVENT
-        ReasonHandlerFactory factory = new(animalCategories, farms, _animals);
+        ReasonHandlerFactory factory = new(animalCategories, farms1, animalAcl);
         var incomingEventHandler = factory.CreateHandler(incomingAnimalEvent);
         await incomingEventHandler.Handle(incomingAnimalEvent);
     }

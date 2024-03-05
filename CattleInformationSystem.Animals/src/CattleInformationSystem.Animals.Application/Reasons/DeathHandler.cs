@@ -3,26 +3,17 @@ using CattleInformationSystem.SharedKernel.Contracts;
 
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
-public class DeathHandler : IReasonHandler
+public class DeathHandler(
+    IAnimalACL animals,
+    IEnumerable<Farm> farms) : IReasonHandler
 {
-    private readonly IAnimalACL _animals;
-    private readonly IReadOnlyCollection<Farm> _farms;
-
-    public DeathHandler(
-        IAnimalACL animals,
-        IReadOnlyCollection<Farm> farms)
-    {
-        _animals = animals;
-        _farms = farms;
-    }
-        
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
-        var currentFarm = _farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
+        var currentFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
         
-        var deadAnimal = await _animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
+        var deadAnimal = await animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
         deadAnimal.HandleDeath(currentFarm.UBN, incomingAnimalEvent.EventDate);
         
-        await _animals.Update(deadAnimal);
+        await animals.Update(deadAnimal);
     }
 }

@@ -7,8 +7,8 @@ dotnet test CattleInformationSystem/CattleInformationSystem.sln
 
 ~/.dotnet/tools/livingdoc \
   feature-folder CattleInformationSystem/src/CattleInformationSystem.Specs \
-  -t CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net7.0/TestExecution.json \
-  --binding-assemblies CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net7.0/CattleInformationSystem.Specs.dll \
+  -t CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net8.0/TestExecution.json \
+  --binding-assemblies CattleInformationSystem/src/CattleInformationSystem.Specs/bin/Debug/net8.0/CattleInformationSystem.Specs.dll \
   --output livingdoc_legacy.html
 
 echo "Generated the report 'livingdoc_legacy.html'."
