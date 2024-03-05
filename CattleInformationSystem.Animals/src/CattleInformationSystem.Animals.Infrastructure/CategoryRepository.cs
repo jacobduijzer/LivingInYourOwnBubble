@@ -3,15 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CattleInformationSystem.Animals.Infrastructure;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository(DatabaseContext databaseContext) : ICategoryRepository
 {
-    private readonly DatabaseContext _databaseContext;
-
-    public CategoryRepository(DatabaseContext databaseContext)
-    {
-        _databaseContext = databaseContext;
-    }
-
     public async Task<IReadOnlyCollection<AnimalCategory>> All() =>
-        await _databaseContext.AnimalCategories.ToListAsync();
+        await databaseContext.AnimalCategories.ToListAsync();
 }

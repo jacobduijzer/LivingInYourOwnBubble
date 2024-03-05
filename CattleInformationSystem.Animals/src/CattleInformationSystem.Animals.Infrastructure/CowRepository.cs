@@ -3,28 +3,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CattleInformationSystem.Animals.Infrastructure;
 
-public class CowRepository : ICowRepository
+public class CowRepository(DatabaseContext databaseContext) : ICowRepository
 {
-    private readonly DatabaseContext _databaseContext;
-
-    public CowRepository(DatabaseContext databaseContext) => 
-        _databaseContext = databaseContext;
-    
     public async Task<Cow> ByLifeNumber(string lifeNumber) =>
-        await _databaseContext.Cows
+        await databaseContext.Cows
             .Include(cow => cow.FarmCows)
             .Include(cow => cow.CowEvents)
             .FirstAsync(c => c.LifeNumber.Equals(lifeNumber));
 
     public async Task Save(Cow cow)
     {
-        await _databaseContext.Cows.AddAsync(cow);
-        await _databaseContext.SaveChangesAsync();
+        await databaseContext.Cows.AddAsync(cow);
+        await databaseContext.SaveChangesAsync();
     }
 
     public async Task Update(Cow cow)
     {
-        _databaseContext.Cows.Update(cow);
-        await _databaseContext.SaveChangesAsync();
+        databaseContext.Cows.Update(cow);
+        await databaseContext.SaveChangesAsync();
     }
 }
