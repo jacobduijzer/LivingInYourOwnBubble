@@ -101,7 +101,8 @@ public class Animal : IAggregateRoot
 
         var lastCategory = GetLastCategory(currentFarm.UBN);
         AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory, null);
-        
-        throw new NotImplementedException();
+
+        var newCategory = categoryDetermination.DeterminateCurrent(this, destinationFarm.FarmType, eventDate);
+        AddAnimalEvent(destinationFarm.UBN, Reason.Arrival, eventDate, newCategory, null);
     }
 }
