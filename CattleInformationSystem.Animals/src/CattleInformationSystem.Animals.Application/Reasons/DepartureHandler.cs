@@ -5,12 +5,12 @@ namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class DepartureHandler(
     IAnimalAcl animals,
-    IReadOnlyCollection<Farm> farms,
+    IEnumerable<Farm> farms,
     AnimalCategoryDeterminationService categoryDetermination)
     : IReasonHandler
 {
     private readonly IAnimalAcl _animals = animals;
-    private readonly IReadOnlyCollection<Farm> _farms = farms;
+    private readonly IEnumerable<Farm> _farms = farms;
     private readonly AnimalCategoryDeterminationService _categoryDetermination = categoryDetermination;
 
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)

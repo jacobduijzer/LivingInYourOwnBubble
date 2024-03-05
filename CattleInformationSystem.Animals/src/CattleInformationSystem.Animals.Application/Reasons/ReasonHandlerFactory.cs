@@ -5,7 +5,7 @@ using CattleInformationSystem.SharedKernel.Contracts;
 namespace CattleInformationSystem.Animals.Application.Reasons;
 
 public class ReasonHandlerFactory(
-    IReadOnlyCollection<AnimalCategory> animalCategories,
+    IEnumerable<AnimalCategory> animalCategories,
     IEnumerable<Farm> farms,
     IAnimalAcl animals)
 {
