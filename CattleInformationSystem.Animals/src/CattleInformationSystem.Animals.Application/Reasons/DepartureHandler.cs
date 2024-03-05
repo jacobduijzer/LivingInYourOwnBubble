@@ -15,16 +15,6 @@ public class DepartureHandler(
 
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
-        var currentFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
-        var destinationFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.TargetUbn));
-        var animal = await animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
-        
-        animal.HandleDepartureAndArrivalEvent(
-            currentFarm,
-            destinationFarm,
-            incomingAnimalEvent.EventDate,
-            categoryDetermination);
-
-        await animals.Update(animal);
+        throw new NotImplementedException();
     }
 }

@@ -1,4 +1,3 @@
-using System.ComponentModel.Design.Serialization;
 using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Animals.Domain;
@@ -95,15 +94,6 @@ public class Animal : IAggregateRoot
 
     public void HandleDepartureAndArrivalEvent(Farm currentFarm, Farm destinationFarm, DateOnly eventDate, AnimalCategoryDeterminationService categoryDetermination)
     {
-        SetEndDateForLocation(currentFarm.UBN, eventDate);
-
-        var animalLocation = new AnimalLocation(destinationFarm.UBN, eventDate);
-        AnimalLocations.Add(animalLocation);
-
-        var lastCategory = GetLastCategory(currentFarm.UBN);
-        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory, null);
-
-        var newCategory = categoryDetermination.DeterminateCurrent(this, destinationFarm.FarmType, eventDate);
-        AddAnimalEvent(destinationFarm.UBN, Reason.Arrival, eventDate, newCategory, null);
+        throw new NotImplementedException();
     }
 }
