@@ -1,3 +1,3 @@
 git checkout .
 git clean -fd
-git checkout $(git log --reverse --pretty=%H --ancestry-path HEAD..main | head -n 1)
+git checkout $(git log --reverse --pretty=%H | head -n 1)
