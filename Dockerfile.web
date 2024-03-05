@@ -1,10 +1,10 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine3.17 as build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.201-alpine3.19 as build
 WORKDIR /app
 COPY . .
 RUN dotnet restore "CattleInformationSystem/CattleInformationSystem.sln"
 RUN dotnet publish "CattleInformationSystem/src/CattleInformationSystem.Web/CattleInformationSystem.Web.csproj" -c Release -o /app/published-app
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine3.17 as runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0.2-alpine3.19 as runtime
 WORKDIR /app
 COPY --from=build /app/published-app /app
 ENTRYPOINT [ "dotnet", "/app/CattleInformationSystem.Web.dll" ]

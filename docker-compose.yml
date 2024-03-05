@@ -27,10 +27,10 @@ services:
       context: .
       dockerfile: Dockerfile.worker
     environment:
-      DatabaseSettings:Username: &db-user postgres
-      DatabaseSettings:Password: &db-password postgres
+      DatabaseSettings:Username: *db-user
+      DatabaseSettings:Password: *db-password
       DatabaseSettings:Host: cis.db
-      DatabaseSettings:Database: &db-name CattleInformationDatabase
+      DatabaseSettings:Database: *db-name
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     depends_on:
       - cis.db
