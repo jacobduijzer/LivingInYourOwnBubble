@@ -19,6 +19,12 @@ public class DepartureHandler(
         var destinationFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.TargetUbn));
         var animal = await _animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
         
+        animal.HandleDepartureAndArrivalEvent(
+            currentFarm,
+            destinationFarm,
+            incomingAnimalEvent.EventDate,
+            categoryDetermination);
+        
         throw new NotImplementedException();
     }
 }
