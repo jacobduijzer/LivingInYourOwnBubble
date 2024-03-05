@@ -24,7 +24,7 @@ public class DepartureHandler(
             destinationFarm,
             incomingAnimalEvent.EventDate,
             categoryDetermination);
-        
-        throw new NotImplementedException();
+
+        await animals.Update(animal);
     }
 }
