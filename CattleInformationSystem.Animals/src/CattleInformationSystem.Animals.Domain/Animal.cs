@@ -1,3 +1,4 @@
+using System.ComponentModel.Design.Serialization;
 using CattleInformationSystem.SharedKernel;
 
 namespace CattleInformationSystem.Animals.Domain;
@@ -98,5 +99,8 @@ public class Animal : IAggregateRoot
 
         var animalLocation = new AnimalLocation(destinationFarm.UBN, eventDate);
         AnimalLocations.Add(animalLocation);
+
+        var lastCategory = GetLastCategory(currentFarm.UBN);
+        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory, null);
     }
 }
