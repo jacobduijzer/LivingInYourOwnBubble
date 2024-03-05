@@ -98,6 +98,9 @@ public class Animal : IAggregateRoot
 
         var animalLocation = new AnimalLocation(destinationFarm.UBN, eventDate);
         AnimalLocations.Add(animalLocation);
+
+        var lastCategory = GetLastCategory(currentFarm.UBN);
+        AddAnimalEvent(currentFarm.UBN, Reason.Departure, eventDate, lastCategory, null);
         
         throw new NotImplementedException();
     }
