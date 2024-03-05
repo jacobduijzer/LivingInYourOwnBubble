@@ -17,6 +17,7 @@ public class DepartureHandler(
     {
         var currentFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
         var destinationFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.TargetUbn));
+        var animal = await _animals.ByLifeNumber(incomingAnimalEvent.LifeNumber);
         
         throw new NotImplementedException();
     }
