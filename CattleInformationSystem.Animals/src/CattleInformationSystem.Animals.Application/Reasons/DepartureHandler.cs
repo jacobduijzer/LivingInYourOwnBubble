@@ -15,6 +15,8 @@ public class DepartureHandler(
 
     public async Task Handle(IncomingAnimalEventCreated incomingAnimalEvent)
     {
+        var currentFarm = farms.First(farm => farm.UBN.Equals(incomingAnimalEvent.CurrentUbn));
+        
         throw new NotImplementedException();
     }
 }
